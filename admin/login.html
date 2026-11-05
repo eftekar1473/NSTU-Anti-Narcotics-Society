@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | NSTU Anti-Narcotics Society</title>
+  <meta name="description" content="Secure administrative login for authorized officers of NSTU Anti-Narcotics Society.">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Supabase JS Client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column; background: linear-gradient(135deg, #0A1E1D 0%, #102C2B 100%);">
+
+  <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem;">
+    <div class="card" style="width: 100%; max-width: 440px; box-shadow: var(--shadow-xl); border: 1px solid rgba(217, 164, 65, 0.3);">
+
+      <div class="card-header text-center" style="padding: 2.5rem 2rem 1.5rem; background-color: #ffffff; border-bottom: none;">
+        <a href="../index.html" style="display: inline-flex; flex-direction: column; align-items: center; gap: 0.75rem; text-decoration: none;">
+          <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo" style="width: 68px; height: 68px; border-radius: 50%; border: 3px solid var(--color-accent); box-shadow: var(--shadow-md);">
+          <div>
+            <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">NSTUANS Portal</h1>
+            <p style="font-size: 0.8125rem; color: var(--color-text-muted); font-weight: 500;">Administrative Management Suite</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card-body" style="padding: 0 2rem 2.5rem;">
+        <div class="badge badge-gold" style="width: 100%; justify-content: center; margin-bottom: 1.5rem; padding: 0.4rem;">
+          Authorized Administrators Only
+        </div>
+
+        <!-- Error Alert -->
+        <div id="login-error-alert" class="alert alert-danger" style="display: none; margin-bottom: 1.25rem; font-size: 0.85rem;">
+          <span id="login-error-text">Invalid login credentials.</span>
+        </div>
+
+        <form id="admin-login-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="login-email">Administrator Email</label>
+            <input type="email" id="login-email" class="form-control" placeholder="admin@nstuans.org" autocomplete="username" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="login-password">Password</label>
+            <input type="password" id="login-password" class="form-control" placeholder="••••••••••••" autocomplete="current-password" required>
+          </div>
+
+          <button type="submit" id="login-submit-btn" class="btn btn-gold btn-block" style="margin-top: 1.5rem; padding: 0.75rem;">
+            Authenticate & Access Dashboard
+          </button>
+        </form>
+
+        <!-- Security Notice -->
+        <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--color-border); text-align: center;">
+          <p style="font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.5; margin: 0;">
+            Protected by Supabase Auth & PostgreSQL Row Level Security (RLS). Public registration is disabled. All authentication attempts are logged for security.
+          </p>
+        </div>
+
+        <div style="margin-top: 1.25rem; text-align: center;">
+          <a href="../index.html" style="font-size: 0.85rem; color: var(--color-primary); font-weight: 600;">&larr; Return to Public Website</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script>
+    document.getElementById('admin-login-form').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const submitBtn = document.getElementById('login-submit-btn');
+      const errBox = document.getElementById('login-error-alert');
+      const errText = document.getElementById('login-error-text');
+
+      errBox.style.display = 'none';
+
+      if (!email || !password) {
+        errText.textContent = 'Please provide both email and password.';
+        errBox.style.display = 'flex';
+        return;
+      }
+
+      submitBtn.classList.add('is-loading');
+      submitBtn.disabled = true;
+
+      try {
+        const result = await window.NSTUANS_Auth.login(email, password);
+
+        if (result.error) {
+          errText.textContent = result.error.message || 'Authentication failed. Please verify your credentials.';
+          errBox.style.display = 'flex';
+          submitBtn.classList.remove('is-loading');
+          submitBtn.disabled = false;
+        } else {
+          // Success
+          NSTUANS_Toast.success('Login successful! Redirecting...');
+          const params = new URLSearchParams(window.location.search);
+          const redirectUrl = params.get('redirect') ? decodeURIComponent(params.get('redirect')) : './dashboard.html';
+
+          setTimeout(() => {
+            window.location.href = redirectUrl;
+          }, 600);
+        }
+      } catch (err) {
+        errText.textContent = 'Network error or server unavailable. Please try again.';
+        errBox.style.display = 'flex';
+        submitBtn.classList.remove('is-loading');
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
