@@ -6,6 +6,9 @@
 *credentials*
 service_role_key*
 
+# Documents and PDFs
+*.pdf
+
 # Operating System files
 .DS_Store
 Thumbs.db
