@@ -116,7 +116,7 @@
         </div>
 
         <!-- Album Cards Grid -->
-        <div class="grid grid-cols-2 gap-8" style="margin-bottom: 4rem;">
+        <div class="grid grid-cols-2 gap-8" id="albums-grid" style="margin-bottom: 4rem;">
 
           <!-- Album 1 -->
           <article class="card album-card">
@@ -245,10 +245,62 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/galleryService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
+  <script>
+    async function loadGalleryAlbums() {
+      const grid = document.getElementById('albums-grid');
+      if (!grid) return;
+
+      try {
+        const { data: albums, error } = await window.NSTUANS_GalleryService.getAlbums();
+
+        if (error || !albums || albums.length === 0) {
+          return; // Keep existing static display
+        }
+
+        grid.innerHTML = '';
+        albums.forEach(album => {
+          const article = document.createElement('article');
+          article.className = 'card album-card';
+          article.innerHTML = `
+            <div class="album-card-image" style="height: 280px;">
+              <img src="${album.cover_image || '../assets/images/Event Opening Ceremony.jpeg'}" alt="${album.title}">
+              <span class="album-badge">Photo Collection</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-green">Verified Media</span>
+                <span style="font-size: 0.8125rem; color: var(--color-text-muted);">${album.event_date || 'Society Activity'}</span>
+              </div>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--color-primary);">${album.title}</h3>
+              <p style="font-size: 0.925rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">${album.description || ''}</p>
+              <div class="flex justify-between items-center">
+                <a href="./details.html?slug=${album.slug}" class="btn btn-outline btn-sm">View Album &rarr;</a>
+                <button type="button" class="btn btn-primary btn-sm" data-gallery-item data-image-src="${album.cover_image}" data-caption="${album.title}">Quick View</button>
+              </div>
+            </div>
+          `;
+          grid.appendChild(article);
+        });
+
+        // Rebind lightbox
+        if (window.NSTUANS_Public) {
+          window.NSTUANS_Public.initLightbox();
+        }
+      } catch (err) {
+        console.error('Error fetching gallery albums:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadGalleryAlbums);
+  </script>
 </body>
 </html>

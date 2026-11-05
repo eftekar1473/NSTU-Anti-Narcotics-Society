@@ -244,81 +244,42 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/eventService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
-    // URL Slug parsing & Dynamic Content Population
-    const eventDatabase = {
-      'campus-awareness-rally': {
-        title: 'Annual Campus Anti-Drug Awareness Rally',
-        date: 'November 15, 2026',
-        time: '10:00 AM - 1:00 PM',
-        location: 'Central Auditorium & Campus Premises, NSTU',
-        cover: '../assets/images/Event Opening Ceremony.jpeg',
-        status: 'Upcoming Event',
-        category: 'Campus Advocacy',
-        desc: 'Join students and faculty in our signature campus rally promoting a drug-free academic lifestyle.'
-      },
-      'keynote-seminar-youth-health': {
-        title: 'Keynote Seminar: Youth Health & Narcotics Prevention',
-        date: 'December 02, 2026',
-        time: '3:00 PM - 5:30 PM',
-        location: 'NSTU Seminar Hall, Academic Building 2',
-        cover: '../assets/images/Speaker.jpeg',
-        status: 'Upcoming Event',
-        category: 'Scientific Seminar',
-        desc: 'Interactive keynote address featuring healthcare experts, faculty mentors, and youth development specialists.'
-      },
-      'inter-department-poster-exhibition': {
-        title: 'Inter-Department Poster & Research Exhibition',
-        date: 'December 18, 2026',
-        time: '11:00 AM - 4:00 PM',
-        location: 'Academic Building 1 Concourse',
-        cover: '../assets/images/Poster Presentation.jpeg',
-        status: 'Upcoming Event',
-        category: 'Student Competition',
-        desc: 'Creative poster exhibition and presentation of youth anti-narcotics research ideas.'
-      },
-      'inaugural-session': {
-        title: 'NSTUANS Opening Ceremony & Inaugural Session',
-        date: 'Historical Milestone',
-        time: '10:00 AM',
-        location: 'NSTU Central Auditorium',
-        cover: '../assets/images/Event Opening Ceremony.jpeg',
-        status: 'Completed Milestone',
-        category: 'Inauguration',
-        desc: 'Official launch and inaugural session marking the birth of NSTUANS.'
-      },
-      'student-research-presentation': {
-        title: 'Student Research Idea Presentation on Substance Abuse',
-        date: 'Historical Milestone',
-        time: '2:30 PM',
-        location: 'Conference Room, NSTU',
-        cover: '../assets/images/Research Idea Presentation.jpeg',
-        status: 'Completed Milestone',
-        category: 'Research Forum',
-        desc: 'Scholarly presentations and group research findings presented by NSTU students.'
-      }
-    };
-
-    function loadEventDetails() {
+    async function loadEventDetails() {
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug') || 'campus-awareness-rally';
-      const eventData = eventDatabase[slug] || eventDatabase['campus-awareness-rally'];
 
-      if (eventData) {
-        document.title = `${eventData.title} | NSTUANS Events`;
-        document.getElementById('breadcrumb-title').textContent = eventData.title;
-        document.getElementById('event-title').textContent = eventData.title;
-        document.getElementById('event-cover-img').src = eventData.cover;
-        document.getElementById('event-date').textContent = eventData.date;
-        document.getElementById('event-time').textContent = eventData.time;
-        document.getElementById('event-location').textContent = eventData.location;
-        document.getElementById('event-status-badge').textContent = eventData.status;
-        document.getElementById('event-category-badge').textContent = eventData.category;
+      try {
+        const { data: eventData, error } = await window.NSTUANS_EventService.getEventBySlug(slug);
+
+        if (eventData) {
+          document.title = `${eventData.title} | NSTUANS Events`;
+          document.getElementById('breadcrumb-title').textContent = eventData.title;
+          document.getElementById('event-title').textContent = eventData.title;
+          document.getElementById('event-cover-img').src = eventData.cover_image || '../assets/images/Event Opening Ceremony.jpeg';
+          
+          const formattedDate = eventData.start_datetime ? new Date(eventData.start_datetime).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Date TBA';
+          const formattedTime = eventData.start_datetime ? new Date(eventData.start_datetime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) : 'Time TBA';
+
+          document.getElementById('event-date').textContent = formattedDate;
+          document.getElementById('event-time').textContent = formattedTime;
+          document.getElementById('event-location').textContent = eventData.location || 'NSTU Campus';
+          document.getElementById('event-status-badge').textContent = eventData.status === 'published' ? 'Published Event' : 'Event';
+          if (eventData.category) {
+            document.getElementById('event-category-badge').textContent = eventData.category;
+          }
+        }
+      } catch (err) {
+        console.error('Error loading event details:', err);
       }
     }
 

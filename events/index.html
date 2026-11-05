@@ -281,12 +281,76 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/eventService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
+    async function loadEventsData() {
+      const container = document.getElementById('events-container');
+      if (!container) return;
+
+      // Render Skeleton loading state
+      container.innerHTML = `
+        <div class="card" style="padding: 1.5rem;"><div class="skeleton skeleton-rect"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text w-75"></div></div>
+        <div class="card" style="padding: 1.5rem;"><div class="skeleton skeleton-rect"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text w-75"></div></div>
+        <div class="card" style="padding: 1.5rem;"><div class="skeleton skeleton-rect"></div><div class="skeleton skeleton-text"></div><div class="skeleton skeleton-text w-75"></div></div>
+      `;
+
+      try {
+        const { data: events, error } = await window.NSTUANS_EventService.getEvents();
+
+        if (error || !events || events.length === 0) {
+          container.innerHTML = '';
+          document.getElementById('no-events-found').style.display = 'block';
+          return;
+        }
+
+        container.innerHTML = '';
+        events.forEach(evt => {
+          const card = document.createElement('article');
+          card.className = 'card event-card';
+          card.setAttribute('data-tab-content', 'event-tabs');
+          card.setAttribute('data-tab-panel', 'upcoming');
+          card.setAttribute('data-title', (evt.title || '').toLowerCase());
+
+          const formattedDate = evt.start_datetime ? new Date(evt.start_datetime).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Upcoming';
+
+          card.innerHTML = `
+            <div class="event-card-media">
+              <img src="${evt.cover_image || '../assets/images/Event Opening Ceremony.jpeg'}" alt="${evt.title}">
+              <span class="event-card-date-badge">${formattedDate}</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-green">Upcoming</span>
+                <span style="font-size: 0.75rem; color: var(--color-text-muted);">${evt.location || 'Campus'}</span>
+              </div>
+              <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">${evt.title}</h3>
+              <p style="font-size: 0.875rem; color: var(--color-text-muted);">${evt.short_description || ''}</p>
+            </div>
+            <div class="card-footer flex justify-between items-center">
+              <span style="font-size: 0.8125rem; color: var(--color-text-muted);">${evt.location || ''}</span>
+              <a href="./details.html?slug=${evt.slug}" class="btn btn-outline btn-sm">View Details</a>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+      } catch (err) {
+        container.innerHTML = `
+          <div class="alert alert-danger" style="grid-column: span 3;">
+            <span>Unable to load events at this time. Please check your connection and try again.</span>
+          </div>
+        `;
+      }
+    }
+
     function filterEventList() {
       const q = document.getElementById('event-search').value.toLowerCase().trim();
       const cards = document.querySelectorAll('#events-container .event-card');
@@ -313,6 +377,8 @@
       if (input) input.value = '';
       filterEventList();
     }
+
+    document.addEventListener('DOMContentLoaded', loadEventsData);
   </script>
 </body>
 </html>

@@ -177,99 +177,67 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/galleryService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
-    const albumCatalog = {
-      'opening-ceremony': {
-        title: 'NSTUANS Opening Ceremony & Inauguration',
-        tag: 'Inauguration Album',
-        date: 'Foundational Event',
-        desc: 'Photographic moments from the foundational launching event uniting faculty advisors, university dignitaries, and student organizers.',
-        images: [
-          { src: '../assets/images/Event Opening Ceremony.jpeg', caption: 'Opening Ceremony Main Stage & Dignitaries' },
-          { src: '../assets/images/Speaker.jpeg', caption: 'Keynote Address on Campus Substance Abuse Prevention' },
-          { src: '../assets/images/club logo.jpg', caption: 'Official NSTUANS Emblem and Banner' }
-        ]
-      },
-      'poster-presentation': {
-        title: 'Campus Poster Presentation & Awareness Art',
-        tag: 'Student Exhibition',
-        date: 'Exhibition Gallery',
-        desc: 'Creative infographic posters and visual presentations produced by students illustrating the health and psychological costs of drug addiction.',
-        images: [
-          { src: '../assets/images/Poster Presentation.jpeg', caption: 'Inter-Department Poster Session on Substance Abuse' },
-          { src: '../assets/images/Research Idea Presentation.jpeg', caption: 'Student Explaining Evidence-Based Prevention Poster' },
-          { src: '../assets/images/Speaker.jpeg', caption: 'Judges and Advisors Reviewing Poster Presentations' }
-        ]
-      },
-      'research-idea-presentation': {
-        title: 'Student Research Idea Forum & Discussions',
-        tag: 'Research Gallery',
-        date: 'Academic Forum',
-        desc: 'Young scholars sharing empirical research methodologies to study substance trends, socio-economic factors, and preventive public health policies.',
-        images: [
-          { src: '../assets/images/Research Idea Presentation.jpeg', caption: 'Research Idea Presentation to Faculty Panel' },
-          { src: '../assets/images/Poster Presentation.jpeg', caption: 'Analytical Charts on Drug Prevention Strategies' },
-          { src: '../assets/images/Event Opening Ceremony.jpeg', caption: 'Academic Collaboration Discussion Session' }
-        ]
-      },
-      'speaker-sessions': {
-        title: 'Keynote Addresses & Expert Dialogues',
-        tag: 'Educational Seminars',
-        date: 'Seminar Series',
-        desc: 'Engaging speeches and scientific guidance delivered by faculty mentors, visiting doctors, and counseling specialists.',
-        images: [
-          { src: '../assets/images/Speaker.jpeg', caption: 'Specialist Speaker Delivering Anti-Narcotics Lecture' },
-          { src: '../assets/images/Event Opening Ceremony.jpeg', caption: 'Auditorium Audience of Students and Faculty' },
-          { src: '../assets/images/club logo.jpg', caption: 'NSTU Anti-Narcotics Society Crest' }
-        ]
-      }
-    };
-
-    function loadAlbumDetails() {
+    async function loadAlbumDetails() {
       const params = new URLSearchParams(window.location.search);
       const slug = params.get('slug') || 'opening-ceremony';
-      const album = albumCatalog[slug] || albumCatalog['opening-ceremony'];
 
-      if (album) {
-        document.title = `${album.title} | NSTUANS Photo Gallery`;
-        document.getElementById('breadcrumb-album-title').textContent = album.title;
-        document.getElementById('album-title').textContent = album.title;
-        document.getElementById('album-tag').textContent = album.tag;
-        document.getElementById('album-date').textContent = album.date;
-        document.getElementById('album-desc').textContent = album.desc;
+      try {
+        const { data: album, error } = await window.NSTUANS_GalleryService.getAlbumBySlug(slug);
 
-        const grid = document.getElementById('album-images-grid');
-        grid.innerHTML = '';
+        if (album) {
+          document.title = `${album.title} | NSTUANS Photo Gallery`;
+          document.getElementById('breadcrumb-album-title').textContent = album.title;
+          document.getElementById('album-title').textContent = album.title;
+          document.getElementById('album-tag').textContent = 'Photo Collection';
+          document.getElementById('album-date').textContent = album.event_date || 'Verified Activity';
+          document.getElementById('album-desc').textContent = album.description || '';
 
-        album.images.forEach(img => {
-          const item = document.createElement('div');
-          item.className = 'card';
-          item.style.cursor = 'pointer';
-          item.setAttribute('data-gallery-item', 'true');
-          item.setAttribute('data-image-src', img.src);
-          item.setAttribute('data-caption', img.caption);
+          const grid = document.getElementById('album-images-grid');
+          grid.innerHTML = '';
 
-          item.innerHTML = `
-            <div style="height: 240px; overflow: hidden; background: #eee;">
-              <img src="${img.src}" alt="${img.caption}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
-            </div>
-            <div class="card-body" style="padding: 1rem;">
-              <p style="font-size: 0.875rem; font-weight: 500; color: var(--color-primary); margin: 0;">${img.caption}</p>
-            </div>
-          `;
+          const images = album.images || album.gallery_images || [
+            { image_url: album.cover_image, caption: album.title }
+          ];
 
-          grid.appendChild(item);
-        });
+          images.forEach(img => {
+            const item = document.createElement('div');
+            item.className = 'card';
+            item.style.cursor = 'pointer';
+            item.setAttribute('data-gallery-item', 'true');
+            const imgSrc = img.image_url || img.src || album.cover_image;
+            const imgCap = img.caption || album.title;
+            item.setAttribute('data-image-src', imgSrc);
+            item.setAttribute('data-caption', imgCap);
 
-        // Re-attach lightbox listeners
-        if (window.NSTUANS_Public) {
-          window.NSTUANS_Public.initLightbox();
+            item.innerHTML = `
+              <div style="height: 240px; overflow: hidden; background: #eee;">
+                <img src="${imgSrc}" alt="${imgCap}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease;">
+              </div>
+              <div class="card-body" style="padding: 1rem;">
+                <p style="font-size: 0.875rem; font-weight: 500; color: var(--color-primary); margin: 0;">${imgCap}</p>
+              </div>
+            `;
+
+            grid.appendChild(item);
+          });
+
+          // Re-attach lightbox listeners
+          if (window.NSTUANS_Public) {
+            window.NSTUANS_Public.initLightbox();
+          }
         }
+      } catch (err) {
+        console.error('Error loading album details:', err);
       }
     }
 

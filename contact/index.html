@@ -244,13 +244,17 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/submissionService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
-    document.getElementById('contact-form').addEventListener('submit', function (e) {
+    document.getElementById('contact-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const nameInput = document.getElementById('contact-name');
@@ -307,18 +311,36 @@
         return;
       }
 
-      // Simulate loading state
       submitBtn.classList.add('is-loading');
       submitBtn.disabled = true;
 
-      setTimeout(() => {
+      try {
+        const payload = {
+          fullName: nameInput.value.trim(),
+          email: emailInput.value.trim(),
+          subject: subjectInput.value.trim(),
+          message: messageInput.value.trim(),
+          website_trap: document.querySelector('input[name="website_trap"]')?.value || ''
+        };
+
+        const result = await window.NSTUANS_SubmissionService.submitContactMessage(payload);
+
         submitBtn.classList.remove('is-loading');
         submitBtn.disabled = false;
-        successAlert.style.display = 'flex';
-        document.getElementById('contact-form').reset();
-        NSTUANS_Toast.success('Message submitted successfully!');
-        successAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 700);
+
+        if (result.success) {
+          successAlert.style.display = 'flex';
+          document.getElementById('contact-form').reset();
+          NSTUANS_Toast.success('Message submitted successfully!');
+          successAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          NSTUANS_Toast.error(result.error || 'Failed to send message. Please try again.');
+        }
+      } catch (err) {
+        submitBtn.classList.remove('is-loading');
+        submitBtn.disabled = false;
+        NSTUANS_Toast.error('Network error. Please try again later.');
+      }
     });
   </script>
 </body>

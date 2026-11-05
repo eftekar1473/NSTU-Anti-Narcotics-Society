@@ -291,13 +291,17 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/submissionService.js"></script>
   <script src="../js/components/navbar.js"></script>
   <script src="../js/components/footer.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
-    document.getElementById('membership-form').addEventListener('submit', function (e) {
+    document.getElementById('membership-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const name = document.getElementById('member-name');
@@ -399,14 +403,36 @@
       submitBtn.classList.add('is-loading');
       submitBtn.disabled = true;
 
-      setTimeout(() => {
+      try {
+        const payload = {
+          fullName: name.value.trim(),
+          studentId: studentId.value.trim(),
+          department: dept.value,
+          session: session.value,
+          email: email.value.trim(),
+          phone: phone.value.trim(),
+          motivation: motivation.value.trim(),
+          member_trap: document.querySelector('input[name="member_trap"]')?.value || ''
+        };
+
+        const result = await window.NSTUANS_SubmissionService.submitMembershipApplication(payload);
+
         submitBtn.classList.remove('is-loading');
         submitBtn.disabled = false;
-        successBox.style.display = 'flex';
-        document.getElementById('membership-form').reset();
-        NSTUANS_Toast.success('Application submitted successfully!');
-        successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }, 800);
+
+        if (result.success) {
+          successBox.style.display = 'flex';
+          document.getElementById('membership-form').reset();
+          NSTUANS_Toast.success('Application submitted successfully!');
+          successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          NSTUANS_Toast.error(result.error || 'Failed to submit application. Please try again.');
+        }
+      } catch (err) {
+        submitBtn.classList.remove('is-loading');
+        submitBtn.disabled = false;
+        NSTUANS_Toast.error('Network error during application submission.');
+      }
     });
   </script>
 </body>
