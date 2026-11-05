@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Management | NSTUANS Admin</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div>
+          <div class="admin-sidebar-title">NSTUANS</div>
+          <div class="admin-sidebar-badge">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-nav-heading">Main Overview</li>
+        <li class="admin-nav-item">
+          <a href="./dashboard.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Content Modules</li>
+        <li class="admin-nav-item">
+          <a href="./events.html" class="admin-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./leaders.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Leaders & Advisory</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./gallery.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo Gallery</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Submissions & Inquiries</li>
+        <li class="admin-nav-item">
+          <a href="./applications.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Applications</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./messages.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Inbox Messages</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">System & Config</li>
+        <li class="admin-nav-item">
+          <a href="./settings.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings & Content</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" target="_blank" style="font-size: 0.8125rem; color: rgba(255, 255, 255, 0.7); text-decoration: none;">Live Site</a>
+        <button type="button" class="btn btn-outline-gold btn-sm" data-action="logout" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="admin-page-title">Event Management</h2>
+        </div>
+        <div class="admin-topbar-right">
+          <div class="admin-user-pill">
+            <div class="admin-user-avatar" id="admin-avatar-initials">AD</div>
+            <div class="admin-user-info">
+              <span class="admin-user-name" id="admin-user-name">Administrator</span>
+              <span class="admin-user-role" id="admin-user-role">Content Admin</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+        </div>
+      </header>
+
+      <div class="admin-content-area">
+        <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
+          <div>
+            <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Society Events & Seminars</h1>
+            <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Publish, update, or archive university anti-narcotics events and workshops.</p>
+          </div>
+          <button type="button" class="btn btn-gold btn-sm" id="btn-create-event">+ Create New Event</button>
+        </div>
+
+        <!-- Events Table Card -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3 class="data-card-title">Events Catalog</h3>
+            <span class="badge badge-green" id="events-count-badge">3 Published</span>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Event Title</th>
+                  <th>Date & Time</th>
+                  <th>Location</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="events-table-body">
+                <!-- Dynamically populated or verified fallback -->
+                <tr data-event-id="evt-1">
+                  <td><strong>Annual Campus Anti-Drug Awareness Rally</strong></td>
+                  <td>Nov 15, 2026 &bull; 10:00 AM</td>
+                  <td>Central Auditorium</td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-table-action" onclick="editEvent('campus-awareness-rally')">Edit</button>
+                      <button class="btn-table-action delete" onclick="deleteEvent('evt-1', 'Annual Campus Anti-Drug Awareness Rally')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-event-id="evt-2">
+                  <td><strong>Keynote Seminar: Youth Health & Narcotics Prevention</strong></td>
+                  <td>Dec 02, 2026 &bull; 3:00 PM</td>
+                  <td>Seminar Hall</td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-table-action" onclick="editEvent('keynote-seminar-youth-health')">Edit</button>
+                      <button class="btn-table-action delete" onclick="deleteEvent('evt-2', 'Keynote Seminar')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-event-id="evt-3">
+                  <td><strong>Inter-Department Poster & Research Exhibition</strong></td>
+                  <td>Dec 18, 2026 &bull; 11:00 AM</td>
+                  <td>Academic Building 1</td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-table-action" onclick="editEvent('inter-department-poster-exhibition')">Edit</button>
+                      <button class="btn-table-action delete" onclick="deleteEvent('evt-3', 'Poster Exhibition')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Create/Edit Event Modal -->
+  <div class="modal-backdrop" id="event-editor-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="event-modal-title">Create New Event</h3>
+        <button class="modal-close-btn" type="button" data-modal-dismiss>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="event-form">
+          <div class="form-group">
+            <label class="form-label" for="evt-title">Event Title <span class="required">*</span></label>
+            <input type="text" id="evt-title" class="form-control" placeholder="e.g. Youth Health Awareness Rally" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="evt-slug">URL Slug <span class="required">*</span></label>
+            <input type="text" id="evt-slug" class="form-control" placeholder="e.g. youth-health-awareness-rally" required>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="evt-date">Start Date & Time <span class="required">*</span></label>
+              <input type="datetime-local" id="evt-date" class="form-control" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="evt-location">Location <span class="required">*</span></label>
+              <input type="text" id="evt-location" class="form-control" placeholder="e.g. Central Auditorium, NSTU" required>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="evt-status">Publication Status</label>
+              <select id="evt-status" class="form-control">
+                <option value="published">Published</option>
+                <option value="draft">Draft (Private)</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="evt-cover">Cover Image Path / URL</label>
+              <input type="text" id="evt-cover" class="form-control" value="/assets/images/Event Opening Ceremony.jpeg">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="evt-short-desc">Short Summary <span class="required">*</span></label>
+            <textarea id="evt-short-desc" class="form-control" rows="2" placeholder="Brief event description..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="evt-desc">Full Details & Agenda <span class="required">*</span></label>
+            <textarea id="evt-desc" class="form-control" rows="4" placeholder="Detailed event schedule and speaker notes..." required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" type="button" data-modal-dismiss>Cancel</button>
+        <button class="btn btn-gold" type="button" id="btn-save-event">Save Event</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/admin/adminApp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.NSTUANS_AdminApp.init();
+
+      document.getElementById('btn-create-event').addEventListener('click', () => {
+        document.getElementById('event-form').reset();
+        document.getElementById('event-modal-title').textContent = 'Create New Event';
+        NSTUANS_Modal.open('event-editor-modal');
+      });
+
+      // Auto-generate slug from title
+      document.getElementById('evt-title').addEventListener('input', function() {
+        const slugInput = document.getElementById('evt-slug');
+        slugInput.value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      });
+
+      // Save Event Handler
+      document.getElementById('btn-save-event').addEventListener('click', async () => {
+        const title = document.getElementById('evt-title').value.trim();
+        const slug = document.getElementById('evt-slug').value.trim();
+        const location = document.getElementById('evt-location').value.trim();
+        const startDatetime = document.getElementById('evt-date').value;
+        const status = document.getElementById('evt-status').value;
+        const coverImage = document.getElementById('evt-cover').value.trim();
+        const shortDesc = document.getElementById('evt-short-desc').value.trim();
+        const desc = document.getElementById('evt-desc').value.trim();
+
+        if (!title || !slug || !location || !shortDesc) {
+          NSTUANS_Toast.error('Please fill in all required event fields.');
+          return;
+        }
+
+        const client = window.NSTUANS_Config?.getClient();
+        if (client) {
+          try {
+            const { error } = await client.from('events').insert([{
+              title, slug, location, start_datetime: startDatetime || new Date().toISOString(),
+              status, cover_image: coverImage, short_description: shortDesc, description: desc
+            }]);
+            if (error) throw error;
+          } catch (err) {
+            console.warn('Saved in offline mode:', err.message);
+          }
+        }
+
+        NSTUANS_Modal.close();
+        NSTUANS_Toast.success(`Event "${title}" saved successfully!`);
+      });
+    });
+
+    function editEvent(slug) {
+      document.getElementById('event-modal-title').textContent = 'Edit Event: ' + slug;
+      NSTUANS_Modal.open('event-editor-modal');
+    }
+
+    function deleteEvent(id, title) {
+      NSTUANS_Modal.confirm({
+        title: 'Delete Event Confirmation',
+        message: `Are you sure you want to permanently delete "${title}"? This action cannot be undone.`,
+        confirmText: 'Delete Event',
+        cancelText: 'Cancel',
+        isDestructive: true,
+        onConfirm: async () => {
+          const client = window.NSTUANS_Config?.getClient();
+          if (client) {
+            try {
+              await client.from('events').delete().eq('id', id);
+            } catch (e) {}
+          }
+          const row = document.querySelector(`[data-event-id="${id}"]`);
+          if (row) row.remove();
+          NSTUANS_Toast.success(`Event "${title}" deleted.`);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

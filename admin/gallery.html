@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery Management | NSTUANS Admin</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div>
+          <div class="admin-sidebar-title">NSTUANS</div>
+          <div class="admin-sidebar-badge">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-nav-heading">Main Overview</li>
+        <li class="admin-nav-item">
+          <a href="./dashboard.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Content Modules</li>
+        <li class="admin-nav-item">
+          <a href="./events.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./leaders.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Leaders & Advisory</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./gallery.html" class="admin-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo Gallery</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Submissions & Inquiries</li>
+        <li class="admin-nav-item">
+          <a href="./applications.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Applications</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./messages.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Inbox Messages</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">System & Config</li>
+        <li class="admin-nav-item">
+          <a href="./settings.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings & Content</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" target="_blank" style="font-size: 0.8125rem; color: rgba(255, 255, 255, 0.7); text-decoration: none;">Live Site</a>
+        <button type="button" class="btn btn-outline-gold btn-sm" data-action="logout" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="admin-page-title">Gallery Albums & Photos</h2>
+        </div>
+        <div class="admin-topbar-right">
+          <div class="admin-user-pill">
+            <div class="admin-user-avatar" id="admin-avatar-initials">AD</div>
+            <div class="admin-user-info">
+              <span class="admin-user-name" id="admin-user-name">Administrator</span>
+              <span class="admin-user-role" id="admin-user-role">Content Admin</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+        </div>
+      </header>
+
+      <div class="admin-content-area">
+        <div class="flex justify-between items-center" style="margin-bottom: 2rem;">
+          <div>
+            <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Photo Albums Catalog</h1>
+            <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Create albums, upload event photographs to Supabase Storage, and manage collections.</p>
+          </div>
+          <button type="button" class="btn btn-gold btn-sm" id="btn-create-album">+ Create New Album</button>
+        </div>
+
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3 class="data-card-title">Albums Collection</h3>
+            <span class="badge badge-green">4 Verified Albums</span>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Album Title</th>
+                  <th>Date</th>
+                  <th>Cover Asset</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="albums-table-body">
+                <tr data-album-id="alb-1">
+                  <td><strong>NSTUANS Opening Ceremony & Inauguration</strong></td>
+                  <td>Foundational</td>
+                  <td><code>Event Opening Ceremony.jpeg</code></td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="../gallery/details.html?slug=opening-ceremony" target="_blank" class="btn-table-action">View</a>
+                      <button class="btn-table-action delete" onclick="deleteAlbum('alb-1', 'Opening Ceremony')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-album-id="alb-2">
+                  <td><strong>Campus Poster Presentation & Awareness Art</strong></td>
+                  <td>Exhibition</td>
+                  <td><code>Poster Presentation.jpeg</code></td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="../gallery/details.html?slug=poster-presentation" target="_blank" class="btn-table-action">View</a>
+                      <button class="btn-table-action delete" onclick="deleteAlbum('alb-2', 'Poster Presentation')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-album-id="alb-3">
+                  <td><strong>Student Research Idea Forum & Discussions</strong></td>
+                  <td>Research</td>
+                  <td><code>Research Idea Presentation.jpeg</code></td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="../gallery/details.html?slug=research-idea-presentation" target="_blank" class="btn-table-action">View</a>
+                      <button class="btn-table-action delete" onclick="deleteAlbum('alb-3', 'Research Idea')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+                <tr data-album-id="alb-4">
+                  <td><strong>Keynote Addresses & Expert Dialogues</strong></td>
+                  <td>Seminar</td>
+                  <td><code>Speaker.jpeg</code></td>
+                  <td><span class="status-pill published"><span class="status-dot"></span> Published</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <a href="../gallery/details.html?slug=speaker-sessions" target="_blank" class="btn-table-action">View</a>
+                      <button class="btn-table-action delete" onclick="deleteAlbum('alb-4', 'Keynote Sessions')">Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Create Album Modal -->
+  <div class="modal-backdrop" id="album-editor-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Create Photo Album</h3>
+        <button class="modal-close-btn" type="button" data-modal-dismiss>&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="album-form">
+          <div class="form-group">
+            <label class="form-label" for="alb-title">Album Title <span class="required">*</span></label>
+            <input type="text" id="alb-title" class="form-control" placeholder="e.g. Annual Anti-Drug Awareness Campaign" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alb-slug">URL Slug <span class="required">*</span></label>
+            <input type="text" id="alb-slug" class="form-control" placeholder="e.g. annual-awareness-campaign" required>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="form-group">
+              <label class="form-label" for="alb-date">Event Date</label>
+              <input type="date" id="alb-date" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="alb-status">Publication Status</label>
+              <select id="alb-status" class="form-control">
+                <option value="published">Published</option>
+                <option value="draft">Draft (Private)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alb-cover">Cover Image URL / Path <span class="required">*</span></label>
+            <input type="text" id="alb-cover" class="form-control" value="/assets/images/Event Opening Ceremony.jpeg" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="alb-desc">Album Description</label>
+            <textarea id="alb-desc" class="form-control" rows="3" placeholder="Summary of activity photos..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" type="button" data-modal-dismiss>Cancel</button>
+        <button class="btn btn-gold" type="button" id="btn-save-album">Create Album</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/admin/adminApp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.NSTUANS_AdminApp.init();
+
+      document.getElementById('btn-create-album').addEventListener('click', () => {
+        document.getElementById('album-form').reset();
+        NSTUANS_Modal.open('album-editor-modal');
+      });
+
+      document.getElementById('alb-title').addEventListener('input', function() {
+        document.getElementById('alb-slug').value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+      });
+
+      document.getElementById('btn-save-album').addEventListener('click', () => {
+        const title = document.getElementById('alb-title').value.trim();
+        if (!title) {
+          NSTUANS_Toast.error('Please provide an album title.');
+          return;
+        }
+        NSTUANS_Modal.close();
+        NSTUANS_Toast.success(`Album "${title}" created successfully!`);
+      });
+    });
+
+    function deleteAlbum(id, title) {
+      NSTUANS_Modal.confirm({
+        title: 'Delete Album Confirmation',
+        message: `Are you sure you want to delete album "${title}"?`,
+        confirmText: 'Delete Album',
+        cancelText: 'Cancel',
+        isDestructive: true,
+        onConfirm: () => {
+          const row = document.querySelector(`[data-album-id="${id}"]`);
+          if (row) row.remove();
+          NSTUANS_Toast.success('Album removed.');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

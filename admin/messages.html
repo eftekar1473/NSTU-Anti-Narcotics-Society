@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Messages Inbox | NSTUANS Admin</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div>
+          <div class="admin-sidebar-title">NSTUANS</div>
+          <div class="admin-sidebar-badge">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-nav-heading">Main Overview</li>
+        <li class="admin-nav-item">
+          <a href="./dashboard.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Content Modules</li>
+        <li class="admin-nav-item">
+          <a href="./events.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./leaders.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Leaders & Advisory</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./gallery.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo Gallery</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Submissions & Inquiries</li>
+        <li class="admin-nav-item">
+          <a href="./applications.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Applications</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./messages.html" class="admin-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Inbox Messages</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">System & Config</li>
+        <li class="admin-nav-item">
+          <a href="./settings.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings & Content</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" target="_blank" style="font-size: 0.8125rem; color: rgba(255, 255, 255, 0.7); text-decoration: none;">Live Site</a>
+        <button type="button" class="btn btn-outline-gold btn-sm" data-action="logout" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="admin-page-title">Inquiry Inbox</h2>
+        </div>
+        <div class="admin-topbar-right">
+          <div class="admin-user-pill">
+            <div class="admin-user-avatar" id="admin-avatar-initials">AD</div>
+            <div class="admin-user-info">
+              <span class="admin-user-name" id="admin-user-name">Administrator</span>
+              <span class="admin-user-role" id="admin-user-role">Super Admin</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+        </div>
+      </header>
+
+      <div class="admin-content-area">
+        <div style="margin-bottom: 2rem;">
+          <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Contact Messages Inbox</h1>
+          <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Read public inquiries, respond via official email, mark as read, or archive.</p>
+        </div>
+
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3 class="data-card-title">Message Threads</h3>
+            <span class="badge badge-gold">Protected Inbox</span>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Sender Name</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="messages-table-body">
+                <tr data-msg-id="msg-1">
+                  <td><strong>Campus Visitor</strong></td>
+                  <td>visitor@example.com</td>
+                  <td>Inquiry on upcoming anti-narcotics seminar schedule</td>
+                  <td><span class="status-pill pending" id="pill-msg-1"><span class="status-dot"></span> Unread</span></td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-table-action" onclick="viewMessage('Campus Visitor', 'visitor@example.com', 'Inquiry on upcoming seminar', 'Hello NSTUANS committee, I would like to know if non-science department students can participate as volunteers in the upcoming awareness campaign rally.')">Read</button>
+                      <button class="btn-table-action" onclick="markMessageRead('msg-1')">Mark Read</button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- View Message Modal -->
+  <div class="modal-backdrop" id="message-view-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 600px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="msg-modal-subject">Message Subject</h3>
+        <button class="modal-close-btn" type="button" data-modal-dismiss>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
+          <div>From: <strong id="msg-modal-sender" style="color: var(--color-primary);">Sender Name</strong> (<span id="msg-modal-email">email</span>)</div>
+        </div>
+        <div style="background: var(--color-bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); line-height: 1.7; font-size: 0.95rem;" id="msg-modal-body">
+          Message text content...
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" type="button" data-modal-dismiss>Close</button>
+        <button class="btn btn-gold" type="button" onclick="replyViaEmail()">Reply via Email</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/admin/adminApp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.NSTUANS_AdminApp.init();
+    });
+
+    let activeReplyEmail = '';
+
+    function viewMessage(sender, email, subject, body) {
+      document.getElementById('msg-modal-sender').textContent = sender;
+      document.getElementById('msg-modal-email').textContent = email;
+      document.getElementById('msg-modal-subject').textContent = subject;
+      document.getElementById('msg-modal-body').textContent = body;
+      activeReplyEmail = email;
+      markMessageRead('msg-1');
+      NSTUANS_Modal.open('message-view-modal');
+    }
+
+    function markMessageRead(id) {
+      const pill = document.getElementById(`pill-${id}`);
+      if (pill) {
+        pill.className = 'status-pill approved';
+        pill.innerHTML = '<span class="status-dot"></span> Read';
+      }
+    }
+
+    function replyViaEmail() {
+      if (activeReplyEmail) {
+        window.location.href = `mailto:${activeReplyEmail}?subject=Re: NSTUANS Official Response`;
+      }
+    }
+  </script>
+</body>
+</html>

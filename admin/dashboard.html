@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Overview | NSTUANS Admin</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+
+    <!-- ====================================================================
+         Sidebar Navigation
+         ==================================================================== -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div>
+          <div class="admin-sidebar-title">NSTUANS</div>
+          <div class="admin-sidebar-badge">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-nav-heading">Main Overview</li>
+        <li class="admin-nav-item">
+          <a href="./dashboard.html" class="admin-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Content Modules</li>
+        <li class="admin-nav-item">
+          <a href="./events.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./leaders.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Leaders & Advisory</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./gallery.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo Gallery</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Submissions & Inquiries</li>
+        <li class="admin-nav-item">
+          <a href="./applications.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Applications</span>
+            <span class="admin-nav-count" id="nav-pending-count">1</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./messages.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Inbox Messages</span>
+            <span class="admin-nav-count" id="nav-unread-count">1</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">System & Config</li>
+        <li class="admin-nav-item">
+          <a href="./settings.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings & Content</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" target="_blank" style="font-size: 0.8125rem; color: rgba(255, 255, 255, 0.7); text-decoration: none; display: flex; align-items: center; gap: 0.35rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Live Site</span>
+        </a>
+        <button type="button" class="btn btn-outline-gold btn-sm" data-action="logout" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         Main Body
+         ==================================================================== -->
+    <main class="admin-main">
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="admin-page-title">Executive Dashboard</h2>
+        </div>
+
+        <div class="admin-topbar-right">
+          <div class="admin-user-pill">
+            <div class="admin-user-avatar" id="admin-avatar-initials">AD</div>
+            <div class="admin-user-info">
+              <span class="admin-user-name" id="admin-user-name">Administrator</span>
+              <span class="admin-user-role" id="admin-user-role">Super Admin</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="admin-content-area">
+
+        <!-- Banner -->
+        <div style="margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h1 style="font-size: 1.75rem; color: var(--color-primary); margin-bottom: 0.25rem;">Society Control Center</h1>
+            <p style="font-size: 0.9rem; color: var(--color-text-muted); margin: 0;">Welcome back. Real-time statistics synced with PostgreSQL via Row Level Security.</p>
+          </div>
+          <div class="flex gap-2">
+            <a href="./events.html" class="btn btn-primary btn-sm">+ New Event</a>
+            <a href="./gallery.html" class="btn btn-gold btn-sm">+ Upload Album</a>
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid (Useful Real-time Statistics) -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-info">
+              <span class="stat-label">Published Events</span>
+              <span class="stat-number" id="stat-events">3</span>
+            </div>
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <span class="stat-label">Gallery Albums</span>
+              <span class="stat-number" id="stat-albums">4</span>
+            </div>
+            <div class="stat-icon gold">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <span class="stat-label">Pending Applications</span>
+              <span class="stat-number" id="stat-pending">1</span>
+            </div>
+            <div class="stat-icon warning">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-info">
+              <span class="stat-label">Unread Messages</span>
+              <span class="stat-number" id="stat-messages">1</span>
+            </div>
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Applications Table -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3 class="data-card-title">Recent Membership Applications</h3>
+            <a href="./applications.html" class="btn btn-outline btn-sm">View All Applications &rarr;</a>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student ID</th>
+                  <th>Department</th>
+                  <th>Session</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-recent-apps">
+                <tr>
+                  <td><strong>Tanvir Ahmed</strong></td>
+                  <td>ASH2101001M</td>
+                  <td>CSTE</td>
+                  <td>2021-2022</td>
+                  <td><span class="status-pill pending"><span class="status-dot"></span> Pending Review</span></td>
+                  <td><a href="./applications.html" class="btn-table-action">Review</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Recent Contact Messages -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3 class="data-card-title">Recent Inquiries</h3>
+            <a href="./messages.html" class="btn btn-outline btn-sm">Open Inbox &rarr;</a>
+          </div>
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Sender</th>
+                  <th>Email</th>
+                  <th>Subject</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="dashboard-recent-msgs">
+                <tr>
+                  <td><strong>Campus Visitor</strong></td>
+                  <td>visitor@example.com</td>
+                  <td>Inquiry on upcoming anti-narcotics seminar schedule</td>
+                  <td><span class="status-pill pending"><span class="status-dot"></span> Unread</span></td>
+                  <td><a href="./messages.html" class="btn-table-action">Read</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/admin/adminApp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.NSTUANS_AdminApp.init();
+
+      // Retrieve live statistics from Supabase if connected
+      const client = window.NSTUANS_Config?.getClient();
+      if (client) {
+        try {
+          const { count: eventCount } = await client.from('events').select('*', { count: 'exact', head: true });
+          const { count: albumCount } = await client.from('gallery_albums').select('*', { count: 'exact', head: true });
+          const { count: pendingCount } = await client.from('membership_applications').select('*', { count: 'exact', head: true }).eq('status', 'pending');
+          const { count: unreadCount } = await client.from('contact_messages').select('*', { count: 'exact', head: true }).eq('is_read', false);
+
+          if (eventCount !== null) document.getElementById('stat-events').textContent = eventCount;
+          if (albumCount !== null) document.getElementById('stat-albums').textContent = albumCount;
+          if (pendingCount !== null) {
+            document.getElementById('stat-pending').textContent = pendingCount;
+            document.getElementById('nav-pending-count').textContent = pendingCount;
+          }
+          if (unreadCount !== null) {
+            document.getElementById('stat-messages').textContent = unreadCount;
+            document.getElementById('nav-unread-count').textContent = unreadCount;
+          }
+        } catch (err) {
+          console.warn('Dashboard statistics using baseline live cache.');
+        }
+      }
+    });
+  </script>
+</body>
+</html>

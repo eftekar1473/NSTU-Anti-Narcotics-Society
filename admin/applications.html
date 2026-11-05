@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Membership Applications | NSTUANS Admin</title>
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div>
+          <div class="admin-sidebar-title">NSTUANS</div>
+          <div class="admin-sidebar-badge">Admin Dashboard</div>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-nav-heading">Main Overview</li>
+        <li class="admin-nav-item">
+          <a href="./dashboard.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Content Modules</li>
+        <li class="admin-nav-item">
+          <a href="./events.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Events</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./leaders.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span>Leaders & Advisory</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./gallery.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Photo Gallery</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">Submissions & Inquiries</li>
+        <li class="admin-nav-item">
+          <a href="./applications.html" class="admin-nav-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span>Applications</span>
+            <span class="admin-nav-count" id="pending-badge-count">1</span>
+          </a>
+        </li>
+        <li class="admin-nav-item">
+          <a href="./messages.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>Inbox Messages</span>
+          </a>
+        </li>
+
+        <li class="admin-nav-heading">System & Config</li>
+        <li class="admin-nav-item">
+          <a href="./settings.html" class="admin-nav-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Settings & Content</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="admin-sidebar-footer">
+        <a href="../index.html" target="_blank" style="font-size: 0.8125rem; color: rgba(255, 255, 255, 0.7); text-decoration: none;">Live Site</a>
+        <button type="button" class="btn btn-outline-gold btn-sm" data-action="logout" style="padding: 0.25rem 0.6rem; font-size: 0.75rem;">Sign Out</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-main">
+      <header class="admin-topbar">
+        <div class="admin-topbar-left">
+          <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          <h2 class="admin-page-title">Membership Applications</h2>
+        </div>
+        <div class="admin-topbar-right">
+          <div class="admin-user-pill">
+            <div class="admin-user-avatar" id="admin-avatar-initials">AD</div>
+            <div class="admin-user-info">
+              <span class="admin-user-name" id="admin-user-name">Administrator</span>
+              <span class="admin-user-role" id="admin-user-role">Super Admin</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-outline btn-sm" data-action="logout">Sign Out</button>
+        </div>
+      </header>
+
+      <div class="admin-content-area">
+        <div style="margin-bottom: 2rem;">
+          <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Student Membership Submissions</h1>
+          <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Review university applicant credentials, approve memberships, and maintain internal review notes.</p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex flex-wrap justify-between items-center gap-4" style="margin-bottom: 1.5rem; background: #fff; padding: 1rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+          <div class="flex gap-2">
+            <button type="button" class="btn btn-primary btn-sm active" onclick="filterApplications('all')">All</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('pending')">Pending</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('approved')">Approved</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('rejected')">Rejected</button>
+          </div>
+          <div style="min-width: 260px;">
+            <input type="text" id="app-search" class="form-control" placeholder="Search applicant, ID, dept..." onkeyup="searchApplications()">
+          </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div class="data-card">
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Full Name</th>
+                  <th>Student ID</th>
+                  <th>Department</th>
+                  <th>Session</th>
+                  <th>Contact</th>
+                  <th>Status</th>
+                  <th>Review Action</th>
+                </tr>
+              </thead>
+              <tbody id="applications-table-body">
+                <tr data-status="pending" data-search-text="tanvir ahmed ash2101001m cste">
+                  <td><strong>Tanvir Ahmed</strong></td>
+                  <td><code>ASH2101001M</code></td>
+                  <td>CSTE</td>
+                  <td>2021-2022</td>
+                  <td><span style="font-size: 0.8rem;">tanvir@student.nstu.edu.bd</span></td>
+                  <td><span class="status-pill pending" id="pill-app-1"><span class="status-dot"></span> Pending</span></td>
+                  <td>
+                    <button class="btn btn-gold btn-sm" onclick="openReviewModal('Tanvir Ahmed', 'ASH2101001M', 'CSTE', '2021-2022', 'tanvir@student.nstu.edu.bd', '01711000000', 'I want to actively contribute to building a drug-free, conscious university environment.')">Review Application</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Review Modal -->
+  <div class="modal-backdrop" id="review-modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Review Membership Application</h3>
+        <button class="modal-close-btn" type="button" data-modal-dismiss>&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: var(--color-bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+          <h4 id="modal-app-name" style="margin-bottom: 0.5rem; color: var(--color-primary);">Applicant Name</h4>
+          <div class="grid grid-cols-2 gap-2" style="font-size: 0.875rem;">
+            <div><strong>Student ID:</strong> <span id="modal-app-id">-</span></div>
+            <div><strong>Department:</strong> <span id="modal-app-dept">-</span></div>
+            <div><strong>Session:</strong> <span id="modal-app-session">-</span></div>
+            <div><strong>Phone:</strong> <span id="modal-app-phone">-</span></div>
+            <div style="grid-column: span 2;"><strong>Email:</strong> <span id="modal-app-email">-</span></div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <label class="form-label">Student Motivation / Statement:</label>
+          <p id="modal-app-motivation" style="background: #fff; padding: 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.6;"></p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="admin-review-notes">Internal Admin Notes (Private)</label>
+          <textarea id="admin-review-notes" class="form-control" rows="3" placeholder="Add confidential review comments or verification notes..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-danger btn-sm" type="button" onclick="updateApplicationStatus('rejected')">Reject</button>
+        <button class="btn btn-outline btn-sm" type="button" data-modal-dismiss>Close</button>
+        <button class="btn btn-gold btn-sm" type="button" onclick="updateApplicationStatus('approved')">Approve Application</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/config/supabase.js"></script>
+  <script src="../js/services/auth.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/admin/adminApp.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.NSTUANS_AdminApp.init();
+    });
+
+    function openReviewModal(name, id, dept, session, email, phone, motivation) {
+      document.getElementById('modal-app-name').textContent = name;
+      document.getElementById('modal-app-id').textContent = id;
+      document.getElementById('modal-app-dept').textContent = dept;
+      document.getElementById('modal-app-session').textContent = session;
+      document.getElementById('modal-app-email').textContent = email;
+      document.getElementById('modal-app-phone').textContent = phone;
+      document.getElementById('modal-app-motivation').textContent = motivation;
+      NSTUANS_Modal.open('review-modal');
+    }
+
+    function updateApplicationStatus(newStatus) {
+      const pill = document.getElementById('pill-app-1');
+      if (pill) {
+        if (newStatus === 'approved') {
+          pill.className = 'status-pill approved';
+          pill.innerHTML = '<span class="status-dot"></span> Approved';
+          NSTUANS_Toast.success('Application approved. Welcome confirmation ready.');
+        } else {
+          pill.className = 'status-pill rejected';
+          pill.innerHTML = '<span class="status-dot"></span> Rejected';
+          NSTUANS_Toast.info('Application status updated to Rejected.');
+        }
+      }
+      NSTUANS_Modal.close();
+    }
+
+    function searchApplications() {
+      const q = document.getElementById('app-search').value.toLowerCase().trim();
+      document.querySelectorAll('#applications-table-body tr').forEach(row => {
+        const text = row.getAttribute('data-search-text') || '';
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function filterApplications(status) {
+      document.querySelectorAll('#applications-table-body tr').forEach(row => {
+        const rStatus = row.getAttribute('data-status');
+        if (status === 'all' || rStatus === status) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
