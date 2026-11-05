@@ -61,7 +61,7 @@
           <a href="./applications.html" class="admin-nav-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <span>Applications</span>
-            <span class="admin-nav-count" id="pending-badge-count">1</span>
+            <span class="admin-nav-count" id="pending-badge-count">0</span>
           </a>
         </li>
         <li class="admin-nav-item">
@@ -113,16 +113,16 @@
           <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Review university applicant credentials, approve memberships, and maintain internal review notes.</p>
         </div>
 
-        <!-- Filter Controls -->
+        <!-- Filter & Search Controls -->
         <div class="flex flex-wrap justify-between items-center gap-4" style="margin-bottom: 1.5rem; background: #fff; padding: 1rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
-          <div class="flex gap-2">
-            <button type="button" class="btn btn-primary btn-sm active" onclick="filterApplications('all')">All</button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('pending')">Pending</button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('approved')">Approved</button>
-            <button type="button" class="btn btn-outline btn-sm" onclick="filterApplications('rejected')">Rejected</button>
+          <div class="flex gap-2" id="filter-buttons-group">
+            <button type="button" class="btn btn-primary btn-sm filter-btn" data-filter="all" onclick="applyStatusFilter('all')">All</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="pending" onclick="applyStatusFilter('pending')">Pending</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="approved" onclick="applyStatusFilter('approved')">Approved</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="rejected" onclick="applyStatusFilter('rejected')">Rejected</button>
           </div>
-          <div style="min-width: 260px;">
-            <input type="text" id="app-search" class="form-control" placeholder="Search applicant, ID, dept..." onkeyup="searchApplications()">
+          <div style="min-width: 280px;">
+            <input type="text" id="app-search" class="form-control" placeholder="Search applicant, ID, dept, email..." onkeyup="searchApplications()">
           </div>
         </div>
 
@@ -137,20 +137,16 @@
                   <th>Department</th>
                   <th>Session</th>
                   <th>Contact</th>
+                  <th>Submitted</th>
                   <th>Status</th>
                   <th>Review Action</th>
                 </tr>
               </thead>
               <tbody id="applications-table-body">
-                <tr data-status="pending" data-search-text="tanvir ahmed ash2101001m cste">
-                  <td><strong>Tanvir Ahmed</strong></td>
-                  <td><code>ASH2101001M</code></td>
-                  <td>CSTE</td>
-                  <td>2021-2022</td>
-                  <td><span style="font-size: 0.8rem;">tanvir@student.nstu.edu.bd</span></td>
-                  <td><span class="status-pill pending" id="pill-app-1"><span class="status-dot"></span> Pending</span></td>
-                  <td>
-                    <button class="btn btn-gold btn-sm" onclick="openReviewModal('Tanvir Ahmed', 'ASH2101001M', 'CSTE', '2021-2022', 'tanvir@student.nstu.edu.bd', '01711000000', 'I want to actively contribute to building a drug-free, conscious university environment.')">Review Application</button>
+                <tr>
+                  <td colspan="8" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">
+                    <div class="spinner" style="margin: 0 auto 0.75rem;"></div>
+                    Loading student applications...
                   </td>
                 </tr>
               </tbody>
@@ -171,19 +167,26 @@
       </div>
       <div class="modal-body">
         <div style="background: var(--color-bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
-          <h4 id="modal-app-name" style="margin-bottom: 0.5rem; color: var(--color-primary);">Applicant Name</h4>
+          <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+            <h4 id="modal-app-name" style="margin: 0; color: var(--color-primary); font-size: 1.25rem;">Applicant Name</h4>
+            <span id="modal-app-status-badge" class="status-pill pending"><span class="status-dot"></span> Pending</span>
+          </div>
           <div class="grid grid-cols-2 gap-2" style="font-size: 0.875rem;">
             <div><strong>Student ID:</strong> <span id="modal-app-id">-</span></div>
             <div><strong>Department:</strong> <span id="modal-app-dept">-</span></div>
             <div><strong>Session:</strong> <span id="modal-app-session">-</span></div>
-            <div><strong>Phone:</strong> <span id="modal-app-phone">-</span></div>
-            <div style="grid-column: span 2;"><strong>Email:</strong> <span id="modal-app-email">-</span></div>
+            <div><strong>Phone:</strong> <a id="modal-app-phone-link" href="#" style="color: var(--color-primary);"><span id="modal-app-phone">-</span></a></div>
+            <div><strong>Email:</strong> <a id="modal-app-email-link" href="#" style="color: var(--color-primary);"><span id="modal-app-email">-</span></a></div>
+            <div><strong>Submitted:</strong> <span id="modal-app-date">-</span></div>
+            <div id="modal-app-reviewed-wrap" style="display: none; grid-column: span 2;">
+              <strong>Reviewed:</strong> <span id="modal-app-reviewed">-</span>
+            </div>
           </div>
         </div>
 
         <div style="margin-bottom: 1.25rem;">
           <label class="form-label">Student Motivation / Statement:</label>
-          <p id="modal-app-motivation" style="background: #fff; padding: 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.6;"></p>
+          <p id="modal-app-motivation" style="background: #fff; padding: 0.85rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.6; max-height: 140px; overflow-y: auto;"></p>
         </div>
 
         <div class="form-group">
@@ -192,67 +195,192 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-danger btn-sm" type="button" onclick="updateApplicationStatus('rejected')">Reject</button>
+        <button class="btn btn-danger btn-sm" type="button" id="modal-reject-btn" onclick="executeStatusUpdate('rejected')">Reject</button>
         <button class="btn btn-outline btn-sm" type="button" data-modal-dismiss>Close</button>
-        <button class="btn btn-gold btn-sm" type="button" onclick="updateApplicationStatus('approved')">Approve Application</button>
+        <button class="btn btn-gold btn-sm" type="button" id="modal-approve-btn" onclick="executeStatusUpdate('approved')">Approve Application</button>
       </div>
     </div>
   </div>
 
   <script src="../js/config/supabase.js"></script>
   <script src="../js/services/auth.js"></script>
+  <script src="../js/services/applicationService.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/admin/adminApp.js"></script>
   <script>
+    let currentApplications = [];
+    let activeFilter = 'all';
+    let selectedAppId = null;
+
     document.addEventListener('DOMContentLoaded', async () => {
       await window.NSTUANS_AdminApp.init();
+      await loadApplications();
     });
 
-    function openReviewModal(name, id, dept, session, email, phone, motivation) {
-      document.getElementById('modal-app-name').textContent = name;
-      document.getElementById('modal-app-id').textContent = id;
-      document.getElementById('modal-app-dept').textContent = dept;
-      document.getElementById('modal-app-session').textContent = session;
-      document.getElementById('modal-app-email').textContent = email;
-      document.getElementById('modal-app-phone').textContent = phone;
-      document.getElementById('modal-app-motivation').textContent = motivation;
-      NSTUANS_Modal.open('review-modal');
+    async function loadApplications() {
+      const tbody = document.getElementById('applications-table-body');
+      try {
+        currentApplications = await window.NSTUANS_ApplicationService.getApplications();
+        renderApplicationsTable();
+        updatePendingBadge();
+      } catch (err) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 2rem; color: var(--color-error);">
+              Failed to load applications. Please refresh the page.
+            </td>
+          </tr>
+        `;
+      }
     }
 
-    function updateApplicationStatus(newStatus) {
-      const pill = document.getElementById('pill-app-1');
-      if (pill) {
-        if (newStatus === 'approved') {
-          pill.className = 'status-pill approved';
-          pill.innerHTML = '<span class="status-dot"></span> Approved';
-          NSTUANS_Toast.success('Application approved. Welcome confirmation ready.');
-        } else {
-          pill.className = 'status-pill rejected';
-          pill.innerHTML = '<span class="status-dot"></span> Rejected';
-          NSTUANS_Toast.info('Application status updated to Rejected.');
-        }
+    function updatePendingBadge() {
+      const pendingCount = currentApplications.filter(a => a.status === 'pending').length;
+      const badge = document.getElementById('pending-badge-count');
+      if (badge) badge.textContent = pendingCount;
+    }
+
+    function renderApplicationsTable() {
+      const tbody = document.getElementById('applications-table-body');
+      const searchQuery = (document.getElementById('app-search')?.value || '').toLowerCase().trim();
+
+      const filtered = currentApplications.filter(app => {
+        const matchesFilter = activeFilter === 'all' || app.status === activeFilter;
+        const searchText = `${app.full_name} ${app.student_id} ${app.department} ${app.email}`.toLowerCase();
+        const matchesSearch = !searchQuery || searchText.includes(searchQuery);
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 3rem; color: var(--color-text-muted);">
+              No membership applications found matching criteria.
+            </td>
+          </tr>
+        `;
+        return;
       }
-      NSTUANS_Modal.close();
+
+      tbody.innerHTML = filtered.map(app => {
+        const statusClass = app.status === 'approved' ? 'approved' : app.status === 'rejected' ? 'rejected' : 'pending';
+        const statusLabel = app.status ? app.status.charAt(0).toUpperCase() + app.status.slice(1) : 'Pending';
+        const formattedDate = app.created_at ? new Date(app.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-';
+        const searchBlob = `${app.full_name} ${app.student_id} ${app.department} ${app.email}`.toLowerCase();
+
+        return `
+          <tr data-id="${app.id}" data-status="${app.status}" data-search-text="${searchBlob}">
+            <td><strong>${app.full_name}</strong></td>
+            <td><code>${app.student_id}</code></td>
+            <td>${app.department}</td>
+            <td>${app.session}</td>
+            <td>
+              <div style="font-size: 0.8125rem;">
+                <div>${app.email}</div>
+                <div style="color: var(--color-text-muted);">${app.phone}</div>
+              </div>
+            </td>
+            <td style="font-size: 0.8125rem; color: var(--color-text-muted);">${formattedDate}</td>
+            <td>
+              <span class="status-pill ${statusClass}" id="pill-${app.id}">
+                <span class="status-dot"></span> ${statusLabel}
+              </span>
+            </td>
+            <td>
+              <button type="button" class="btn btn-gold btn-sm" onclick="openReviewModal('${app.id}')">
+                Review Application
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function applyStatusFilter(status) {
+      activeFilter = status;
+      document.querySelectorAll('#filter-buttons-group .filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === status) {
+          btn.className = 'btn btn-primary btn-sm filter-btn active';
+        } else {
+          btn.className = 'btn btn-outline btn-sm filter-btn';
+        }
+      });
+      renderApplicationsTable();
     }
 
     function searchApplications() {
-      const q = document.getElementById('app-search').value.toLowerCase().trim();
-      document.querySelectorAll('#applications-table-body tr').forEach(row => {
-        const text = row.getAttribute('data-search-text') || '';
-        row.style.display = text.includes(q) ? '' : 'none';
-      });
+      renderApplicationsTable();
     }
 
-    function filterApplications(status) {
-      document.querySelectorAll('#applications-table-body tr').forEach(row => {
-        const rStatus = row.getAttribute('data-status');
-        if (status === 'all' || rStatus === status) {
-          row.style.display = '';
+    function openReviewModal(appId) {
+      const app = currentApplications.find(a => a.id === appId);
+      if (!app) return;
+
+      selectedAppId = appId;
+      document.getElementById('modal-app-name').textContent = app.full_name;
+      document.getElementById('modal-app-id').textContent = app.student_id;
+      document.getElementById('modal-app-dept').textContent = app.department;
+      document.getElementById('modal-app-session').textContent = app.session;
+      document.getElementById('modal-app-email').textContent = app.email;
+      document.getElementById('modal-app-email-link').href = `mailto:${app.email}?subject=NSTUANS Membership Application Update`;
+      document.getElementById('modal-app-phone').textContent = app.phone;
+      document.getElementById('modal-app-phone-link').href = `tel:${app.phone}`;
+      document.getElementById('modal-app-date').textContent = app.created_at ? new Date(app.created_at).toLocaleString() : '-';
+      document.getElementById('modal-app-motivation').textContent = app.motivation;
+      document.getElementById('admin-review-notes').value = app.admin_notes || '';
+
+      const statusBadge = document.getElementById('modal-app-status-badge');
+      const statusClass = app.status === 'approved' ? 'approved' : app.status === 'rejected' ? 'rejected' : 'pending';
+      const statusLabel = app.status ? app.status.charAt(0).toUpperCase() + app.status.slice(1) : 'Pending';
+      statusBadge.className = `status-pill ${statusClass}`;
+      statusBadge.innerHTML = `<span class="status-dot"></span> ${statusLabel}`;
+
+      const reviewedWrap = document.getElementById('modal-app-reviewed-wrap');
+      if (app.reviewed_at) {
+        reviewedWrap.style.display = 'block';
+        document.getElementById('modal-app-reviewed').textContent = new Date(app.reviewed_at).toLocaleString();
+      } else {
+        reviewedWrap.style.display = 'none';
+      }
+
+      NSTUANS_Modal.open('review-modal');
+    }
+
+    async function executeStatusUpdate(newStatus) {
+      if (!selectedAppId) return;
+
+      const notes = document.getElementById('admin-review-notes').value.trim();
+      const approveBtn = document.getElementById('modal-approve-btn');
+      const rejectBtn = document.getElementById('modal-reject-btn');
+
+      approveBtn.disabled = true;
+      rejectBtn.disabled = true;
+
+      try {
+        const res = await window.NSTUANS_ApplicationService.updateStatus(selectedAppId, newStatus, notes);
+        if (res.success) {
+          // Update in local in-memory array
+          const app = currentApplications.find(a => a.id === selectedAppId);
+          if (app) {
+            app.status = newStatus;
+            app.admin_notes = notes;
+            app.reviewed_at = new Date().toISOString();
+          }
+
+          NSTUANS_Toast.success(`Application marked as ${newStatus.toUpperCase()}.`);
+          NSTUANS_Modal.close();
+          renderApplicationsTable();
+          updatePendingBadge();
         } else {
-          row.style.display = 'none';
+          NSTUANS_Toast.error(res.error || 'Failed to update application.');
         }
-      });
+      } catch (err) {
+        NSTUANS_Toast.error('An error occurred during status update.');
+      } finally {
+        approveBtn.disabled = false;
+        rejectBtn.disabled = false;
+      }
     }
   </script>
 </body>

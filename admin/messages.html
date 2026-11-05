@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Messages Inbox | NSTUANS Admin</title>
+  <title>Inbox Messages | NSTUANS Admin</title>
   <link rel="stylesheet" href="../css/global.css">
   <link rel="stylesheet" href="../css/components.css">
   <link rel="stylesheet" href="../css/responsive.css">
@@ -67,6 +67,7 @@
           <a href="./messages.html" class="admin-nav-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span>Inbox Messages</span>
+            <span class="admin-nav-count" id="unread-badge-count">0</span>
           </a>
         </li>
 
@@ -92,7 +93,7 @@
           <button type="button" id="admin-sidebar-toggle" class="admin-menu-toggle" aria-label="Toggle Navigation">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
           </button>
-          <h2 class="admin-page-title">Inquiry Inbox</h2>
+          <h2 class="admin-page-title">Contact Messages Inbox</h2>
         </div>
         <div class="admin-topbar-right">
           <div class="admin-user-pill">
@@ -108,15 +109,25 @@
 
       <div class="admin-content-area">
         <div style="margin-bottom: 2rem;">
-          <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Contact Messages Inbox</h1>
-          <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Read public inquiries, respond via official email, mark as read, or archive.</p>
+          <h1 style="font-size: 1.5rem; color: var(--color-primary); margin-bottom: 0.25rem;">Visitor Inquiries</h1>
+          <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">Read public inquiries, reply via official email, mark as read, or archive threads.</p>
         </div>
 
-        <div class="data-card">
-          <div class="data-card-header">
-            <h3 class="data-card-title">Message Threads</h3>
-            <span class="badge badge-gold">Protected Inbox</span>
+        <!-- Filter & Search Controls -->
+        <div class="flex flex-wrap justify-between items-center gap-4" style="margin-bottom: 1.5rem; background: #fff; padding: 1rem 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--color-border);">
+          <div class="flex gap-2" id="msg-filter-group">
+            <button type="button" class="btn btn-primary btn-sm filter-btn" data-filter="all" onclick="applyMessageFilter('all')">All</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="unread" onclick="applyMessageFilter('unread')">Unread</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="read" onclick="applyMessageFilter('read')">Read</button>
+            <button type="button" class="btn btn-outline btn-sm filter-btn" data-filter="archived" onclick="applyMessageFilter('archived')">Archived</button>
           </div>
+          <div style="min-width: 280px;">
+            <input type="text" id="msg-search" class="form-control" placeholder="Search sender, email, subject..." onkeyup="searchMessages()">
+          </div>
+        </div>
+
+        <!-- Messages Table -->
+        <div class="data-card">
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
@@ -124,21 +135,16 @@
                   <th>Sender Name</th>
                   <th>Email</th>
                   <th>Subject</th>
+                  <th>Date</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody id="messages-table-body">
-                <tr data-msg-id="msg-1">
-                  <td><strong>Campus Visitor</strong></td>
-                  <td>visitor@example.com</td>
-                  <td>Inquiry on upcoming anti-narcotics seminar schedule</td>
-                  <td><span class="status-pill pending" id="pill-msg-1"><span class="status-dot"></span> Unread</span></td>
-                  <td>
-                    <div class="table-actions">
-                      <button class="btn-table-action" onclick="viewMessage('Campus Visitor', 'visitor@example.com', 'Inquiry on upcoming seminar', 'Hello NSTUANS committee, I would like to know if non-science department students can participate as volunteers in the upcoming awareness campaign rally.')">Read</button>
-                      <button class="btn-table-action" onclick="markMessageRead('msg-1')">Mark Read</button>
-                    </div>
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--color-text-muted);">
+                    <div class="spinner" style="margin: 0 auto 0.75rem;"></div>
+                    Loading messages...
                   </td>
                 </tr>
               </tbody>
@@ -158,53 +164,209 @@
         <button class="modal-close-btn" type="button" data-modal-dismiss>&times;</button>
       </div>
       <div class="modal-body">
-        <div style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--color-text-muted);">
-          <div>From: <strong id="msg-modal-sender" style="color: var(--color-primary);">Sender Name</strong> (<span id="msg-modal-email">email</span>)</div>
+        <div style="background: var(--color-bg-subtle); padding: 1rem 1.25rem; border-radius: var(--radius-sm); margin-bottom: 1.25rem;">
+          <div style="margin-bottom: 0.25rem;">
+            From: <strong id="msg-modal-sender" style="color: var(--color-primary);">Sender Name</strong> &lt;<a id="msg-modal-email-link" href="#" style="color: var(--color-primary);"><span id="msg-modal-email">email</span></a>&gt;
+          </div>
+          <div style="font-size: 0.8125rem; color: var(--color-text-muted);">
+            Received: <span id="msg-modal-date">-</span>
+          </div>
         </div>
-        <div style="background: var(--color-bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); line-height: 1.7; font-size: 0.95rem;" id="msg-modal-body">
+        <div style="background: #ffffff; padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); line-height: 1.7; font-size: 0.95rem; max-height: 220px; overflow-y: auto;" id="msg-modal-body">
           Message text content...
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-outline" type="button" data-modal-dismiss>Close</button>
-        <button class="btn btn-gold" type="button" onclick="replyViaEmail()">Reply via Email</button>
+        <button class="btn btn-outline btn-sm" type="button" id="msg-modal-archive-btn" onclick="executeArchiveFromModal()">Archive</button>
+        <button class="btn btn-outline btn-sm" type="button" data-modal-dismiss>Close</button>
+        <button class="btn btn-gold btn-sm" type="button" onclick="replyViaEmail()">Reply via Email</button>
       </div>
     </div>
   </div>
 
   <script src="../js/config/supabase.js"></script>
   <script src="../js/services/auth.js"></script>
+  <script src="../js/services/messageService.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/admin/adminApp.js"></script>
   <script>
+    let currentMessages = [];
+    let activeFilter = 'all';
+    let selectedMsgId = null;
+    let activeReplyEmail = '';
+    let activeReplySubject = '';
+
     document.addEventListener('DOMContentLoaded', async () => {
       await window.NSTUANS_AdminApp.init();
+      await loadMessages();
     });
 
-    let activeReplyEmail = '';
+    async function loadMessages() {
+      const tbody = document.getElementById('messages-table-body');
+      try {
+        currentMessages = await window.NSTUANS_MessageService.getMessages();
+        renderMessagesTable();
+        updateUnreadBadge();
+      } catch (err) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem; color: var(--color-error);">
+              Failed to load contact messages. Please refresh.
+            </td>
+          </tr>
+        `;
+      }
+    }
 
-    function viewMessage(sender, email, subject, body) {
-      document.getElementById('msg-modal-sender').textContent = sender;
-      document.getElementById('msg-modal-email').textContent = email;
-      document.getElementById('msg-modal-subject').textContent = subject;
-      document.getElementById('msg-modal-body').textContent = body;
-      activeReplyEmail = email;
-      markMessageRead('msg-1');
+    function updateUnreadBadge() {
+      const unreadCount = currentMessages.filter(m => !m.is_read && !m.is_archived).length;
+      const badge = document.getElementById('unread-badge-count');
+      if (badge) badge.textContent = unreadCount;
+    }
+
+    function renderMessagesTable() {
+      const tbody = document.getElementById('messages-table-body');
+      const searchQuery = (document.getElementById('msg-search')?.value || '').toLowerCase().trim();
+
+      const filtered = currentMessages.filter(msg => {
+        let matchesFilter = true;
+        if (activeFilter === 'unread') matchesFilter = !msg.is_read && !msg.is_archived;
+        else if (activeFilter === 'read') matchesFilter = msg.is_read && !msg.is_archived;
+        else if (activeFilter === 'archived') matchesFilter = !!msg.is_archived;
+
+        const searchText = `${msg.full_name} ${msg.email} ${msg.subject} ${msg.message}`.toLowerCase();
+        const matchesSearch = !searchQuery || searchText.includes(searchQuery);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 3rem; color: var(--color-text-muted);">
+              No messages found.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(msg => {
+        const isArchived = !!msg.is_archived;
+        const isRead = !!msg.is_read;
+        const statusClass = isArchived ? 'rejected' : isRead ? 'approved' : 'pending';
+        const statusLabel = isArchived ? 'Archived' : isRead ? 'Read' : 'Unread';
+        const formattedDate = msg.created_at ? new Date(msg.created_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '-';
+        const searchBlob = `${msg.full_name} ${msg.email} ${msg.subject}`.toLowerCase();
+
+        return `
+          <tr data-id="${msg.id}" data-search-text="${searchBlob}">
+            <td><strong>${msg.full_name}</strong></td>
+            <td><a href="mailto:${msg.email}" style="color: var(--color-text-main); font-size: 0.875rem;">${msg.email}</a></td>
+            <td><span style="font-weight: 500;">${msg.subject}</span></td>
+            <td style="font-size: 0.8125rem; color: var(--color-text-muted);">${formattedDate}</td>
+            <td>
+              <span class="status-pill ${statusClass}" id="pill-${msg.id}">
+                <span class="status-dot"></span> ${statusLabel}
+              </span>
+            </td>
+            <td>
+              <div class="table-actions">
+                <button type="button" class="btn-table-action" onclick="viewMessage('${msg.id}')">Read</button>
+                ${!isRead && !isArchived ? `<button type="button" class="btn-table-action" onclick="markMessageRead('${msg.id}')">Mark Read</button>` : ''}
+                ${!isArchived ? `<button type="button" class="btn-table-action" onclick="archiveMessage('${msg.id}')">Archive</button>` : ''}
+                <button type="button" class="btn-table-action danger" onclick="confirmDeleteMessage('${msg.id}')">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function applyMessageFilter(filter) {
+      activeFilter = filter;
+      document.querySelectorAll('#msg-filter-group .filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-filter') === filter) {
+          btn.className = 'btn btn-primary btn-sm filter-btn active';
+        } else {
+          btn.className = 'btn btn-outline btn-sm filter-btn';
+        }
+      });
+      renderMessagesTable();
+    }
+
+    function searchMessages() {
+      renderMessagesTable();
+    }
+
+    async function viewMessage(msgId) {
+      const msg = currentMessages.find(m => m.id === msgId);
+      if (!msg) return;
+
+      selectedMsgId = msgId;
+      activeReplyEmail = msg.email;
+      activeReplySubject = msg.subject;
+
+      document.getElementById('msg-modal-sender').textContent = msg.full_name;
+      document.getElementById('msg-modal-email').textContent = msg.email;
+      document.getElementById('msg-modal-email-link').href = `mailto:${msg.email}?subject=Re: ${encodeURIComponent(msg.subject)}`;
+      document.getElementById('msg-modal-subject').textContent = msg.subject;
+      document.getElementById('msg-modal-body').textContent = msg.message;
+      document.getElementById('msg-modal-date').textContent = msg.created_at ? new Date(msg.created_at).toLocaleString() : '-';
+
+      // Automatically mark as read if not already
+      if (!msg.is_read) {
+        await markMessageRead(msgId, false);
+      }
+
       NSTUANS_Modal.open('message-view-modal');
     }
 
-    function markMessageRead(id) {
-      const pill = document.getElementById(`pill-${id}`);
-      if (pill) {
-        pill.className = 'status-pill approved';
-        pill.innerHTML = '<span class="status-dot"></span> Read';
+    async function markMessageRead(msgId, showToast = true) {
+      await window.NSTUANS_MessageService.markAsRead(msgId);
+      const msg = currentMessages.find(m => m.id === msgId);
+      if (msg) msg.is_read = true;
+      if (showToast) NSTUANS_Toast.success('Message marked as read.');
+      renderMessagesTable();
+      updateUnreadBadge();
+    }
+
+    async function archiveMessage(msgId) {
+      await window.NSTUANS_MessageService.archiveMessage(msgId);
+      const msg = currentMessages.find(m => m.id === msgId);
+      if (msg) msg.is_archived = true;
+      NSTUANS_Toast.info('Message archived.');
+      renderMessagesTable();
+      updateUnreadBadge();
+    }
+
+    async function executeArchiveFromModal() {
+      if (selectedMsgId) {
+        await archiveMessage(selectedMsgId);
+        NSTUANS_Modal.close();
       }
+    }
+
+    async function confirmDeleteMessage(msgId) {
+      NSTUANS_Modal.confirm({
+        title: 'Delete Message Thread',
+        message: 'Are you sure you want to permanently delete this message record? This action cannot be undone.',
+        confirmText: 'Delete Message',
+        isDanger: true,
+        onConfirm: async () => {
+          await window.NSTUANS_MessageService.deleteMessage(msgId);
+          currentMessages = currentMessages.filter(m => m.id !== msgId);
+          NSTUANS_Toast.success('Message permanently deleted.');
+          renderMessagesTable();
+          updateUnreadBadge();
+        }
+      });
     }
 
     function replyViaEmail() {
       if (activeReplyEmail) {
-        window.location.href = `mailto:${activeReplyEmail}?subject=Re: NSTUANS Official Response`;
+        window.location.href = `mailto:${activeReplyEmail}?subject=${encodeURIComponent('Re: ' + activeReplySubject)}`;
       }
     }
   </script>

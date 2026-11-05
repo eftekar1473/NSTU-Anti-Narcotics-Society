@@ -254,6 +254,11 @@
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('contact-form');
+      if (form) form.setAttribute('data-loaded-at', Date.now());
+    });
+
     document.getElementById('contact-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
@@ -320,7 +325,8 @@
           email: emailInput.value.trim(),
           subject: subjectInput.value.trim(),
           message: messageInput.value.trim(),
-          website_trap: document.querySelector('input[name="website_trap"]')?.value || ''
+          website_trap: document.querySelector('input[name="website_trap"]')?.value || '',
+          loadedAt: document.getElementById('contact-form')?.getAttribute('data-loaded-at') || 0
         };
 
         const result = await window.NSTUANS_SubmissionService.submitContactMessage(payload);

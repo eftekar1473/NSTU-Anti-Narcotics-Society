@@ -247,6 +247,8 @@
 
   <script src="../js/config/supabase.js"></script>
   <script src="../js/services/auth.js"></script>
+  <script src="../js/services/applicationService.js"></script>
+  <script src="../js/services/messageService.js"></script>
   <script src="../js/components/modal.js"></script>
   <script src="../js/components/toast.js"></script>
   <script src="../js/admin/adminApp.js"></script>
@@ -254,27 +256,74 @@
     document.addEventListener('DOMContentLoaded', async () => {
       await window.NSTUANS_AdminApp.init();
 
-      // Retrieve live statistics from Supabase if connected
+      // Retrieve live statistics and populate recent lists
+      try {
+        const apps = await window.NSTUANS_ApplicationService.getApplications();
+        const pendingCount = apps.filter(a => a.status === 'pending').length;
+        const statPending = document.getElementById('stat-pending');
+        const navPending = document.getElementById('nav-pending-count');
+        if (statPending) statPending.textContent = pendingCount;
+        if (navPending) navPending.textContent = pendingCount;
+
+        // Populate recent applications (first 5)
+        const recentAppsTbody = document.getElementById('dashboard-recent-apps');
+        if (recentAppsTbody && apps.length > 0) {
+          recentAppsTbody.innerHTML = apps.slice(0, 5).map(app => {
+            const statusClass = app.status === 'approved' ? 'approved' : app.status === 'rejected' ? 'rejected' : 'pending';
+            const statusLabel = app.status ? app.status.charAt(0).toUpperCase() + app.status.slice(1) : 'Pending';
+            return `
+              <tr>
+                <td><strong>${app.full_name}</strong></td>
+                <td><code>${app.student_id}</code></td>
+                <td>${app.department}</td>
+                <td>${app.session}</td>
+                <td><span class="status-pill ${statusClass}"><span class="status-dot"></span> ${statusLabel}</span></td>
+                <td><a href="./applications.html" class="btn-table-action">Review</a></td>
+              </tr>
+            `;
+          }).join('');
+        }
+
+        const msgs = await window.NSTUANS_MessageService.getMessages();
+        const unreadCount = msgs.filter(m => !m.is_read && !m.is_archived).length;
+        const statMessages = document.getElementById('stat-messages');
+        const navMessages = document.getElementById('nav-unread-count');
+        if (statMessages) statMessages.textContent = unreadCount;
+        if (navMessages) navMessages.textContent = unreadCount;
+
+        // Populate recent messages (first 5)
+        const recentMsgsTbody = document.getElementById('dashboard-recent-msgs');
+        if (recentMsgsTbody && msgs.length > 0) {
+          recentMsgsTbody.innerHTML = msgs.slice(0, 5).map(msg => {
+            const isArchived = !!msg.is_archived;
+            const isRead = !!msg.is_read;
+            const statusClass = isArchived ? 'rejected' : isRead ? 'approved' : 'pending';
+            const statusLabel = isArchived ? 'Archived' : isRead ? 'Read' : 'Unread';
+            return `
+              <tr>
+                <td><strong>${msg.full_name}</strong></td>
+                <td>${msg.email}</td>
+                <td>${msg.subject}</td>
+                <td><span class="status-pill ${statusClass}"><span class="status-dot"></span> ${statusLabel}</span></td>
+                <td><a href="./messages.html" class="btn-table-action">Read</a></td>
+              </tr>
+            `;
+          }).join('');
+        }
+      } catch (err) {
+        console.warn('Dashboard data retrieval error:', err);
+      }
+
+      // Query database counts for events and albums if Supabase client is connected
       const client = window.NSTUANS_Config?.getClient();
       if (client) {
         try {
           const { count: eventCount } = await client.from('events').select('*', { count: 'exact', head: true });
           const { count: albumCount } = await client.from('gallery_albums').select('*', { count: 'exact', head: true });
-          const { count: pendingCount } = await client.from('membership_applications').select('*', { count: 'exact', head: true }).eq('status', 'pending');
-          const { count: unreadCount } = await client.from('contact_messages').select('*', { count: 'exact', head: true }).eq('is_read', false);
-
           if (eventCount !== null) document.getElementById('stat-events').textContent = eventCount;
           if (albumCount !== null) document.getElementById('stat-albums').textContent = albumCount;
-          if (pendingCount !== null) {
-            document.getElementById('stat-pending').textContent = pendingCount;
-            document.getElementById('nav-pending-count').textContent = pendingCount;
-          }
-          if (unreadCount !== null) {
-            document.getElementById('stat-messages').textContent = unreadCount;
-            document.getElementById('nav-unread-count').textContent = unreadCount;
-          }
-        } catch (err) {
-          console.warn('Dashboard statistics using baseline live cache.');
+        } catch (e) {
+          console.warn('Supabase metric query note:', e);
         }
       }
     });

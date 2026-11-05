@@ -301,6 +301,11 @@
   <script src="../js/components/toast.js"></script>
   <script src="../js/public/main.js"></script>
   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('membership-form');
+      if (form) form.setAttribute('data-loaded-at', Date.now());
+    });
+
     document.getElementById('membership-form').addEventListener('submit', async function (e) {
       e.preventDefault();
 
@@ -412,7 +417,8 @@
           email: email.value.trim(),
           phone: phone.value.trim(),
           motivation: motivation.value.trim(),
-          member_trap: document.querySelector('input[name="member_trap"]')?.value || ''
+          member_trap: document.querySelector('input[name="member_trap"]')?.value || '',
+          loadedAt: document.getElementById('membership-form')?.getAttribute('data-loaded-at') || 0
         };
 
         const result = await window.NSTUANS_SubmissionService.submitMembershipApplication(payload);

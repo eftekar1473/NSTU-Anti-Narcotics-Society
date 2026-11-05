@@ -59,7 +59,24 @@
       });
     }
 
-    // 5. Logout Button Handler
+    // 5. Update Sidebar Count Badges
+    try {
+      const storedApps = JSON.parse(localStorage.getItem('nstuans_membership_applications') || '[]');
+      const pendingCount = storedApps.filter(a => a.status === 'pending').length;
+      document.querySelectorAll('#pending-badge-count, #nav-pending-count').forEach(el => {
+        el.textContent = pendingCount;
+      });
+
+      const storedMsgs = JSON.parse(localStorage.getItem('nstuans_contact_messages') || '[]');
+      const unreadCount = storedMsgs.filter(m => !m.is_read && !m.is_archived).length;
+      document.querySelectorAll('#unread-badge-count, #nav-unread-count').forEach(el => {
+        el.textContent = unreadCount;
+      });
+    } catch (e) {
+      // Ignore badge parsing errors
+    }
+
+    // 6. Logout Button Handler
     const logoutBtns = document.querySelectorAll('[data-action="logout"]');
     logoutBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
