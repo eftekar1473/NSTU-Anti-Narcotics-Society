@@ -1,0 +1,95 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/events/:slug",
+      "destination": "/events/details.html?slug=:slug"
+    },
+    {
+      "source": "/gallery/:slug",
+      "destination": "/gallery/details.html?slug=:slug"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/about/mission",
+      "destination": "/about/mission.html"
+    },
+    {
+      "source": "/about/vision",
+      "destination": "/about/vision.html"
+    },
+    {
+      "source": "/about/history",
+      "destination": "/about/history.html"
+    },
+    {
+      "source": "/about/goals",
+      "destination": "/about/goals.html"
+    },
+    {
+      "source": "/events",
+      "destination": "/events/index.html"
+    },
+    {
+      "source": "/leaders",
+      "destination": "/leaders/index.html"
+    },
+    {
+      "source": "/gallery",
+      "destination": "/gallery/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/join-us",
+      "destination": "/join-us/index.html"
+    },
+    {
+      "source": "/admin",
+      "destination": "/admin/dashboard.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
