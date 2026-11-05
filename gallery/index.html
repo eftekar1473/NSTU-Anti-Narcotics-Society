@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery & Albums | NSTU Anti-Narcotics Society</title>
+  <meta name="description" content="Explore photographic albums of NSTU Anti-Narcotics Society campaigns, rallies, research forums, and seminars.">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="../index.html" class="nav-brand">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div class="nav-brand-text">
+          <span class="nav-brand-title">NSTUANS</span>
+          <span class="nav-brand-subtitle">Anti-Narcotics Society</span>
+        </div>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item nav-dropdown">
+          <a href="../about/index.html" class="nav-link nav-dropdown-toggle" id="aboutDropdownToggle" role="button" aria-haspopup="true" aria-expanded="false">
+            About
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="aboutDropdownToggle">
+            <a href="../about/index.html" class="dropdown-item">Who We Are</a>
+            <a href="../about/mission.html" class="dropdown-item">Mission</a>
+            <a href="../about/vision.html" class="dropdown-item">Vision</a>
+            <a href="../about/history.html" class="dropdown-item">History</a>
+            <a href="../about/goals.html" class="dropdown-item">Goals</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../events/index.html" class="nav-link">Events</a></li>
+        <li class="nav-item"><a href="../leaders/index.html" class="nav-link">Leaders</a></li>
+        <li class="nav-item"><a href="../gallery/index.html" class="nav-link active">Gallery</a></li>
+        <li class="nav-item"><a href="../contact/index.html" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="../join-us/index.html" class="nav-link nav-link-cta">Join Us</a></li>
+      </ul>
+
+      <button class="nav-toggle-btn" aria-label="Toggle navigation menu" type="button">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-overlay" aria-hidden="true"></div>
+  <aside class="mobile-drawer" aria-label="Mobile Navigation">
+    <div>
+      <a href="../index.html" class="nav-brand">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div class="nav-brand-text">
+          <span class="nav-brand-title">NSTUANS</span>
+          <span class="nav-brand-subtitle">Anti-Narcotics Society</span>
+        </div>
+      </a>
+
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item mobile-dropdown">
+          <a href="#" class="mobile-nav-link mobile-dropdown-toggle">
+            About
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
+          <div class="mobile-dropdown-menu">
+            <a href="../about/index.html" class="mobile-dropdown-item">Who We Are</a>
+            <a href="../about/mission.html" class="mobile-dropdown-item">Mission</a>
+            <a href="../about/vision.html" class="mobile-dropdown-item">Vision</a>
+            <a href="../about/history.html" class="mobile-dropdown-item">History</a>
+            <a href="../about/goals.html" class="mobile-dropdown-item">Goals</a>
+          </div>
+        </li>
+        <li class="mobile-nav-item"><a href="../events/index.html" class="mobile-nav-link">Events</a></li>
+        <li class="mobile-nav-item"><a href="../leaders/index.html" class="mobile-nav-link">Leaders</a></li>
+        <li class="mobile-nav-item"><a href="../gallery/index.html" class="mobile-nav-link active">Gallery</a></li>
+        <li class="mobile-nav-item"><a href="../contact/index.html" class="mobile-nav-link">Contact</a></li>
+      </ul>
+    </div>
+    <div style="margin-top: 2rem;">
+      <a href="../join-us/index.html" class="btn btn-gold btn-block">Join Us</a>
+    </div>
+  </aside>
+
+  <main>
+    <section class="section-sm section-dark" style="background: linear-gradient(135deg, #102C2B 0%, #0A1E1D 100%); border-bottom: 3px solid var(--color-accent);">
+      <div class="container text-center">
+        <span class="section-eyebrow">Visual Memories & Activities</span>
+        <h1 style="color: #ffffff; margin-bottom: 0.5rem;">Photo Gallery</h1>
+        <p style="color: var(--color-accent); font-style: italic; font-size: 1.15rem;">"Say No to Drugs, Say Yes to Life."</p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section section-white">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-eyebrow">Photo Collections</span>
+          <h2 class="section-title">Albums & Activity Highlights</h2>
+          <p class="section-subtitle">Browse through visual chronicles of our campus campaigns, student seminars, and anti-narcotics research exhibitions.</p>
+          <div class="accent-line"></div>
+        </div>
+
+        <!-- Album Cards Grid -->
+        <div class="grid grid-cols-2 gap-8" style="margin-bottom: 4rem;">
+
+          <!-- Album 1 -->
+          <article class="card album-card">
+            <div class="album-card-image" style="height: 280px;">
+              <img src="../assets/images/Event Opening Ceremony.jpeg" alt="Society Opening Ceremony & Inauguration">
+              <span class="album-badge">Inaugural Event</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-green">Featured Album</span>
+                <span style="font-size: 0.8125rem; color: var(--color-text-muted);">Verified Media</span>
+              </div>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--color-primary);">NSTUANS Opening Ceremony & Inauguration</h3>
+              <p style="font-size: 0.925rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">Photographic moments from the foundational launching event uniting faculty advisors, university dignitaries, and student organizers.</p>
+              <div class="flex justify-between items-center">
+                <a href="./details.html?slug=opening-ceremony" class="btn btn-outline btn-sm">View Album &rarr;</a>
+                <button type="button" class="btn btn-primary btn-sm" data-gallery-item data-image-src="../assets/images/Event Opening Ceremony.jpeg" data-caption="NSTUANS Opening Ceremony & Inauguration">Quick View</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Album 2 -->
+          <article class="card album-card">
+            <div class="album-card-image" style="height: 280px;">
+              <img src="../assets/images/Poster Presentation.jpeg" alt="Poster Presentation Exhibition">
+              <span class="album-badge">Student Exhibition</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-gold">Awareness Gallery</span>
+                <span style="font-size: 0.8125rem; color: var(--color-text-muted);">Verified Media</span>
+              </div>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--color-primary);">Campus Poster Presentation & Awareness Art</h3>
+              <p style="font-size: 0.925rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">Creative infographic posters and visual presentations produced by students illustrating the health and psychological costs of drug addiction.</p>
+              <div class="flex justify-between items-center">
+                <a href="./details.html?slug=poster-presentation" class="btn btn-outline btn-sm">View Album &rarr;</a>
+                <button type="button" class="btn btn-primary btn-sm" data-gallery-item data-image-src="../assets/images/Poster Presentation.jpeg" data-caption="Campus Poster Presentation & Awareness Art">Quick View</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Album 3 -->
+          <article class="card album-card">
+            <div class="album-card-image" style="height: 280px;">
+              <img src="../assets/images/Research Idea Presentation.jpeg" alt="Student Research Idea Session">
+              <span class="album-badge">Research Forum</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-gold">Research Gallery</span>
+                <span style="font-size: 0.8125rem; color: var(--color-text-muted);">Verified Media</span>
+              </div>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--color-primary);">Student Research Idea Forum & Discussions</h3>
+              <p style="font-size: 0.925rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">Young scholars sharing empirical research methodologies to study substance trends, socio-economic factors, and preventive public health policies.</p>
+              <div class="flex justify-between items-center">
+                <a href="./details.html?slug=research-idea-presentation" class="btn btn-outline btn-sm">View Album &rarr;</a>
+                <button type="button" class="btn btn-primary btn-sm" data-gallery-item data-image-src="../assets/images/Research Idea Presentation.jpeg" data-caption="Student Research Idea Forum">Quick View</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Album 4 -->
+          <article class="card album-card">
+            <div class="album-card-image" style="height: 280px;">
+              <img src="../assets/images/Speaker.jpeg" alt="Keynote Speaker Sessions">
+              <span class="album-badge">Keynote Sessions</span>
+            </div>
+            <div class="card-body">
+              <div class="flex justify-between items-center" style="margin-bottom: 0.5rem;">
+                <span class="badge badge-green">Educational Gallery</span>
+                <span style="font-size: 0.8125rem; color: var(--color-text-muted);">Verified Media</span>
+              </div>
+              <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; color: var(--color-primary);">Keynote Addresses & Expert Dialogues</h3>
+              <p style="font-size: 0.925rem; color: var(--color-text-muted); margin-bottom: 1.25rem;">Engaging speeches and scientific guidance delivered by faculty mentors, visiting doctors, and counseling specialists.</p>
+              <div class="flex justify-between items-center">
+                <a href="./details.html?slug=speaker-sessions" class="btn btn-outline btn-sm">View Album &rarr;</a>
+                <button type="button" class="btn btn-primary btn-sm" data-gallery-item data-image-src="../assets/images/Speaker.jpeg" data-caption="Keynote Addresses & Expert Dialogues">Quick View</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-brand-title">NSTUANS</span>
+          <p class="footer-motto">"Say No to Drugs, Say Yes to Life."</p>
+          <p style="font-size: 0.875rem;">Noakhali Science and Technology University Anti-Narcotics Society is dedicated to building a conscious, drug-free, and healthy campus community.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="../about/index.html">About Society</a>
+            <a href="../about/mission.html">Mission & Vision</a>
+            <a href="../about/goals.html">Goals & Research</a>
+            <a href="../events/index.html">Upcoming Events</a>
+            <a href="./index.html">Photo Gallery</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Community</h4>
+          <div class="footer-links">
+            <a href="../leaders/index.html">Advisory & Committee</a>
+            <a href="../join-us/index.html">Apply for Membership</a>
+            <a href="../contact/index.html">Office Location</a>
+            <a href="../admin/login.html">Admin Portal</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Contact & Campus</h4>
+          <p style="font-size: 0.875rem; margin-bottom: 0.5rem;">Noakhali Science and Technology University<br>Sonapur, Noakhali-3814, Bangladesh</p>
+          <p style="font-size: 0.875rem; color: var(--color-accent);">Email & Phone details pending official verification.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; <span id="current-year">2026</span> Noakhali Science and Technology University Anti-Narcotics Society (NSTUANS). All rights reserved.</div>
+        <div>Developed in accordance with NSTUANS SRS & AI Development Instructions.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/components/navbar.js"></script>
+  <script src="../js/components/footer.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/public/main.js"></script>
+</body>
+</html>

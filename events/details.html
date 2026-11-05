@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details | NSTU Anti-Narcotics Society</title>
+  <meta name="description" content="View event schedule, speaker details, venue, and participation information for NSTUANS events.">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header class="navbar-wrapper">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="../index.html" class="nav-brand">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div class="nav-brand-text">
+          <span class="nav-brand-title">NSTUANS</span>
+          <span class="nav-brand-subtitle">Anti-Narcotics Society</span>
+        </div>
+      </a>
+
+      <ul class="nav-menu">
+        <li class="nav-item nav-dropdown">
+          <a href="../about/index.html" class="nav-link nav-dropdown-toggle" id="aboutDropdownToggle" role="button" aria-haspopup="true" aria-expanded="false">
+            About
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="aboutDropdownToggle">
+            <a href="../about/index.html" class="dropdown-item">Who We Are</a>
+            <a href="../about/mission.html" class="dropdown-item">Mission</a>
+            <a href="../about/vision.html" class="dropdown-item">Vision</a>
+            <a href="../about/history.html" class="dropdown-item">History</a>
+            <a href="../about/goals.html" class="dropdown-item">Goals</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../events/index.html" class="nav-link active">Events</a></li>
+        <li class="nav-item"><a href="../leaders/index.html" class="nav-link">Leaders</a></li>
+        <li class="nav-item"><a href="../gallery/index.html" class="nav-link">Gallery</a></li>
+        <li class="nav-item"><a href="../contact/index.html" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a href="../join-us/index.html" class="nav-link nav-link-cta">Join Us</a></li>
+      </ul>
+
+      <button class="nav-toggle-btn" aria-label="Toggle navigation menu" type="button">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-overlay" aria-hidden="true"></div>
+  <aside class="mobile-drawer" aria-label="Mobile Navigation">
+    <div>
+      <a href="../index.html" class="nav-brand">
+        <img src="../assets/images/club logo.jpg" alt="NSTUANS Logo">
+        <div class="nav-brand-text">
+          <span class="nav-brand-title">NSTUANS</span>
+          <span class="nav-brand-subtitle">Anti-Narcotics Society</span>
+        </div>
+      </a>
+
+      <ul class="mobile-nav-list">
+        <li class="mobile-nav-item mobile-dropdown">
+          <a href="#" class="mobile-nav-link mobile-dropdown-toggle">
+            About
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </a>
+          <div class="mobile-dropdown-menu">
+            <a href="../about/index.html" class="mobile-dropdown-item">Who We Are</a>
+            <a href="../about/mission.html" class="mobile-dropdown-item">Mission</a>
+            <a href="../about/vision.html" class="mobile-dropdown-item">Vision</a>
+            <a href="../about/history.html" class="mobile-dropdown-item">History</a>
+            <a href="../about/goals.html" class="mobile-dropdown-item">Goals</a>
+          </div>
+        </li>
+        <li class="mobile-nav-item"><a href="../events/index.html" class="mobile-nav-link active">Events</a></li>
+        <li class="mobile-nav-item"><a href="../leaders/index.html" class="mobile-nav-link">Leaders</a></li>
+        <li class="mobile-nav-item"><a href="../gallery/index.html" class="mobile-nav-link">Gallery</a></li>
+        <li class="mobile-nav-item"><a href="../contact/index.html" class="mobile-nav-link">Contact</a></li>
+      </ul>
+    </div>
+    <div style="margin-top: 2rem;">
+      <a href="../join-us/index.html" class="btn btn-gold btn-block">Join Us</a>
+    </div>
+  </aside>
+
+  <main>
+    <!-- Breadcrumb Bar -->
+    <div style="background-color: var(--color-bg-white); border-bottom: 1px solid var(--color-border); padding: 0.85rem 0;">
+      <div class="container flex items-center gap-2" style="font-size: 0.875rem;">
+        <a href="../index.html" style="color: var(--color-text-muted);">Home</a>
+        <span style="color: var(--color-text-subtle);">&rsaquo;</span>
+        <a href="./index.html" style="color: var(--color-text-muted);">Events</a>
+        <span style="color: var(--color-text-subtle);">&rsaquo;</span>
+        <span id="breadcrumb-title" style="color: var(--color-primary); font-weight: 600;">Event Details</span>
+      </div>
+    </div>
+
+    <!-- Event Detail Container -->
+    <section class="section section-white">
+      <div class="container" style="max-width: 1000px;">
+
+        <!-- Event Cover & Hero -->
+        <div style="margin-bottom: 2.5rem; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--color-border); box-shadow: var(--shadow-md);">
+          <img id="event-cover-img" src="../assets/images/Event Opening Ceremony.jpeg" alt="Event Cover Image" style="width: 100%; height: 420px; object-fit: cover;">
+        </div>
+
+        <div class="grid grid-cols-3 gap-8">
+          <!-- Main Content (Left 2 cols) -->
+          <div style="grid-column: span 2;">
+            <div class="flex items-center gap-3" style="margin-bottom: 0.75rem;">
+              <span id="event-status-badge" class="badge badge-green">Upcoming Event</span>
+              <span id="event-category-badge" class="badge badge-gold">Campus Advocacy</span>
+            </div>
+
+            <h1 id="event-title" style="font-size: 2.25rem; margin-bottom: 1rem; color: var(--color-primary);">
+              Annual Campus Anti-Drug Awareness Rally
+            </h1>
+
+            <div class="accent-line" style="margin-bottom: 2rem;"></div>
+
+            <div id="event-description">
+              <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                The Noakhali Science and Technology University Anti-Narcotics Society (NSTUANS) cordially invites all students, faculty members, researchers, and campus staff to take part in our signature awareness campaign.
+              </p>
+              <p style="font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.25rem;">
+                Our rally serves as a high-visibility, proactive demonstration of unity against substance abuse, emphasizing peer solidarity, mental health resources, and the irreplaceable value of living a healthy, drug-free life.
+              </p>
+
+              <h3 style="font-size: 1.35rem; color: var(--color-primary); margin-top: 2rem; margin-bottom: 1rem;">Event Objectives & Agenda</h3>
+              <ul style="list-style: disc; padding-left: 1.5rem; margin-bottom: 1.5rem; color: var(--color-text-main); line-height: 1.8;">
+                <li>Opening address by faculty advisors and society student leaders.</li>
+                <li>Distribution of informational leaflets and visual awareness materials.</li>
+                <li>Central awareness walk around major university academic and residential buildings.</li>
+                <li>Pledge ceremony: <em>"Say No to Drugs, Say Yes to Life."</em></li>
+                <li>Interactive Q&A and youth registration booth for joining NSTUANS.</li>
+              </ul>
+            </div>
+
+            <!-- Additional Images Grid -->
+            <div style="margin-top: 3rem;">
+              <h3 style="font-size: 1.25rem; color: var(--color-primary); margin-bottom: 1rem;">Activity Highlights & Photography</h3>
+              <div class="grid grid-cols-2 gap-4" id="event-gallery-grid">
+                <div style="border-radius: var(--radius-md); overflow: hidden; height: 180px;">
+                  <img src="../assets/images/Poster Presentation.jpeg" alt="Poster Session" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div style="border-radius: var(--radius-md); overflow: hidden; height: 180px;">
+                  <img src="../assets/images/Research Idea Presentation.jpeg" alt="Research Presentation" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sidebar Information (Right 1 col) -->
+          <div>
+            <div class="card" style="padding: 1.75rem; position: sticky; top: calc(var(--navbar-height) + 1.5rem);">
+              <h3 style="font-size: 1.2rem; margin-bottom: 1.25rem; color: var(--color-primary); border-bottom: 1px solid var(--color-border); padding-bottom: 0.75rem;">
+                Event Information
+              </h3>
+
+              <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 1.75rem;">
+                <div>
+                  <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: var(--color-text-subtle);">Date</span>
+                  <p id="event-date" style="font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-top: 2px;">November 15, 2026</p>
+                </div>
+
+                <div>
+                  <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: var(--color-text-subtle);">Time</span>
+                  <p id="event-time" style="font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-top: 2px;">10:00 AM - 1:00 PM</p>
+                </div>
+
+                <div>
+                  <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: var(--color-text-subtle);">Location</span>
+                  <p id="event-location" style="font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-top: 2px;">Central Auditorium & Campus Premises, NSTU</p>
+                </div>
+
+                <div>
+                  <span style="font-size: 0.75rem; text-transform: uppercase; font-weight: bold; color: var(--color-text-subtle);">Organizer</span>
+                  <p style="font-size: 1rem; font-weight: 600; color: var(--color-primary); margin-top: 2px;">NSTU Anti-Narcotics Society</p>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-3">
+                <a href="../join-us/index.html" class="btn btn-gold btn-block">Join Society</a>
+                <button type="button" class="btn btn-outline btn-block" onclick="copyEventShareLink()">Share Event URL</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="footer-brand-title">NSTUANS</span>
+          <p class="footer-motto">"Say No to Drugs, Say Yes to Life."</p>
+          <p style="font-size: 0.875rem;">Noakhali Science and Technology University Anti-Narcotics Society is dedicated to building a conscious, drug-free, and healthy campus community.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="../about/index.html">About Society</a>
+            <a href="../about/mission.html">Mission & Vision</a>
+            <a href="../about/goals.html">Goals & Research</a>
+            <a href="./index.html">Upcoming Events</a>
+            <a href="../gallery/index.html">Photo Gallery</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Community</h4>
+          <div class="footer-links">
+            <a href="../leaders/index.html">Advisory & Committee</a>
+            <a href="../join-us/index.html">Apply for Membership</a>
+            <a href="../contact/index.html">Office Location</a>
+            <a href="../admin/login.html">Admin Portal</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Contact & Campus</h4>
+          <p style="font-size: 0.875rem; margin-bottom: 0.5rem;">Noakhali Science and Technology University<br>Sonapur, Noakhali-3814, Bangladesh</p>
+          <p style="font-size: 0.875rem; color: var(--color-accent);">Email & Phone details pending official verification.</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; <span id="current-year">2026</span> Noakhali Science and Technology University Anti-Narcotics Society (NSTUANS). All rights reserved.</div>
+        <div>Developed in accordance with NSTUANS SRS & AI Development Instructions.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/components/navbar.js"></script>
+  <script src="../js/components/footer.js"></script>
+  <script src="../js/components/modal.js"></script>
+  <script src="../js/components/toast.js"></script>
+  <script src="../js/public/main.js"></script>
+  <script>
+    // URL Slug parsing & Dynamic Content Population
+    const eventDatabase = {
+      'campus-awareness-rally': {
+        title: 'Annual Campus Anti-Drug Awareness Rally',
+        date: 'November 15, 2026',
+        time: '10:00 AM - 1:00 PM',
+        location: 'Central Auditorium & Campus Premises, NSTU',
+        cover: '../assets/images/Event Opening Ceremony.jpeg',
+        status: 'Upcoming Event',
+        category: 'Campus Advocacy',
+        desc: 'Join students and faculty in our signature campus rally promoting a drug-free academic lifestyle.'
+      },
+      'keynote-seminar-youth-health': {
+        title: 'Keynote Seminar: Youth Health & Narcotics Prevention',
+        date: 'December 02, 2026',
+        time: '3:00 PM - 5:30 PM',
+        location: 'NSTU Seminar Hall, Academic Building 2',
+        cover: '../assets/images/Speaker.jpeg',
+        status: 'Upcoming Event',
+        category: 'Scientific Seminar',
+        desc: 'Interactive keynote address featuring healthcare experts, faculty mentors, and youth development specialists.'
+      },
+      'inter-department-poster-exhibition': {
+        title: 'Inter-Department Poster & Research Exhibition',
+        date: 'December 18, 2026',
+        time: '11:00 AM - 4:00 PM',
+        location: 'Academic Building 1 Concourse',
+        cover: '../assets/images/Poster Presentation.jpeg',
+        status: 'Upcoming Event',
+        category: 'Student Competition',
+        desc: 'Creative poster exhibition and presentation of youth anti-narcotics research ideas.'
+      },
+      'inaugural-session': {
+        title: 'NSTUANS Opening Ceremony & Inaugural Session',
+        date: 'Historical Milestone',
+        time: '10:00 AM',
+        location: 'NSTU Central Auditorium',
+        cover: '../assets/images/Event Opening Ceremony.jpeg',
+        status: 'Completed Milestone',
+        category: 'Inauguration',
+        desc: 'Official launch and inaugural session marking the birth of NSTUANS.'
+      },
+      'student-research-presentation': {
+        title: 'Student Research Idea Presentation on Substance Abuse',
+        date: 'Historical Milestone',
+        time: '2:30 PM',
+        location: 'Conference Room, NSTU',
+        cover: '../assets/images/Research Idea Presentation.jpeg',
+        status: 'Completed Milestone',
+        category: 'Research Forum',
+        desc: 'Scholarly presentations and group research findings presented by NSTU students.'
+      }
+    };
+
+    function loadEventDetails() {
+      const params = new URLSearchParams(window.location.search);
+      const slug = params.get('slug') || 'campus-awareness-rally';
+      const eventData = eventDatabase[slug] || eventDatabase['campus-awareness-rally'];
+
+      if (eventData) {
+        document.title = `${eventData.title} | NSTUANS Events`;
+        document.getElementById('breadcrumb-title').textContent = eventData.title;
+        document.getElementById('event-title').textContent = eventData.title;
+        document.getElementById('event-cover-img').src = eventData.cover;
+        document.getElementById('event-date').textContent = eventData.date;
+        document.getElementById('event-time').textContent = eventData.time;
+        document.getElementById('event-location').textContent = eventData.location;
+        document.getElementById('event-status-badge').textContent = eventData.status;
+        document.getElementById('event-category-badge').textContent = eventData.category;
+      }
+    }
+
+    function copyEventShareLink() {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        NSTUANS_Toast.success('Event link copied to clipboard!');
+      }).catch(() => {
+        NSTUANS_Toast.info('URL: ' + window.location.href);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadEventDetails);
+  </script>
+</body>
+</html>
